@@ -1,0 +1,540 @@
+.login-container{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  vertical-align: center;
+  width: 100%;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.show{
+  margin-top: 0;
+}
+
+
+.login-image{
+  border-radius: 0.9rem !important;
+  width: 500px;
+  box-shadow: 0 2px 15px -3px rgba(0,0,0,.07), 0 10px 20px -2px rgba(0,0,0,.04) !important;
+}
+
+.login-card{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  min-width: 60vw;
+  height: 80vh;
+  background: hsla(0, 0%, 100%, 0.55);
+  backdrop-filter: blur(30px);
+  border-radius: 10px;
+  z-index: 0
+  /*margin-left: -100px;*/
+}
+
+.login-field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  z-index: 0;
+}
+
+
+/* Add a class to handle the animation */
+.slide-animation {
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Other styles remain unchanged */
+
+.login-field2 {
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  z-index: 1;
+  transform: translateX(0); /* Initial position */
+}
+
+.image {
+  background: url("/favicon.ico");
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;  /* Position the image absolutely within the .toggle-panel */
+  top: 0;
+  left: 0;
+  filter: blur(30px);
+
+  z-index: -1;
+}
+
+.toggle-panel{
+  height: 75vh;
+  width: 35vw;
+  border: 5px groove lightblue;
+  /*border-radius: 20%;*/
+  transition: transform 0.5s ease, border-radius 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 20px;
+  margin-right: -800px;
+  backdrop-filter: blur(20px);
+  position: relative;
+}
+
+.toggle-left {
+  transform: translateX(0);
+}
+
+.toggle-right {
+  transform: translateX(-34vw); /* Adjust this value based on your card width */
+}
+
+.toggle-left .toggle-panel {
+  border-radius: 0 150px 100px 0;
+  width: 40vw;
+}
+
+.toggle-right .toggle-panel {
+  border-radius: 150px 0 0 100px;
+}
+
+/* Add styles for the animated button */
+.toggle-btn {
+  background-color: lightblue !important;
+  cursor: pointer;
+}
+
+/* Add media query styles */
+@media (max-width: 1300px) {
+
+  .login-field {
+    margin-right: 0;
+    margin-top: 30vh;
+  }
+  .login-card {
+    height: 115vh;
+    margin-top: -28vh;
+    display: flex;
+    flex-wrap: revert;
+  }
+
+  .sign{
+    margin-top: -60vh;
+  }
+
+  .login-field2 {
+    margin-right: 0;
+  }
+
+  .toggle-left {
+    transform: translateY(-3%);
+  }
+
+  /*low/down*/
+  .toggle-left .toggle-panel {
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 90vw;
+    height: 54vh;
+    border-radius: 50px 50px 0 0;
+  }
+
+  /*high/up*/
+  .toggle-right .toggle-panel {
+    margin-top: 30vh;
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 90vw;
+    height: 25vh;
+    border-radius: 0 0 50px 50px;
+  }
+
+  .toggle-right {
+    transform: translateY(-103%); /* Adjust this value based on your card height */
+  }
+}
+
+
+.title{
+  text-align: center;
+  font-size: 2rem;
+  color:grey;
+}
+.login, .login-eyes{
+  box-shadow: unset;
+  margin-top: 50px;
+}
+
+.login-eyes {
+  background-image: url("/favicon.ico")!important;
+}
+
+
+
+.login-btn{
+  width: 100%;
+  margin-bottom: 50px;
+  background-color: lightblue!important;
+}
+
+sign-in:focus-visible {
+  color: lightblue;
+}
+
+/*   EYES   */
+.hit-area {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}
+
+.hitbox {
+  width: 100px;
+  height: 100px;
+  float:left;
+}
+
+
+/*Sign up*/
+.sign-container{
+  /* background-image: url("/assets/avatar.png"); */
+  /* animation: like 2s 3s infinite linear;; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  vertical-align: center;
+
+}
+
+
+.show{
+  margin-top: 0;
+}
+.sign-card{
+  /* background-image: url("/assets/avatar.png")!important; */
+  backdrop-filter: blur(20px)!important;
+  width: 500px;
+  margin-left:-246px;
+  margin-right: -246px;
+  margin-top:-40px!important;
+  padding-bottom:58px!important;
+  overflow: hidden;
+}
+
+.password{
+  width: 100%;
+}
+
+.password.ng-invalid:has(input:not(:placeholder-shown))  {
+  padding-bottom: 50px;
+
+}
+
+.area{
+  background-color: #eee;
+}
+.circles{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 97%;
+  margin-top:0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.circles li{
+  /* background-image: url("/assets/avatar.png");
+  background-size: 100%; */
+  background-color: lightblue;
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  animation: animate 25s linear infinite;
+  bottom: -150px;
+
+}
+
+.circles li:nth-child(1){
+  left: 25%;
+  width: 130px;
+  height: 130px;
+  animation-delay: 0s;
+}
+
+
+.circles li:nth-child(2){
+  left: 10%;
+  width: 70px;
+  height: 70px;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+  left: 70%;
+  width: 70px;
+  height: 70px;
+  animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+  left: 40%;
+  width: 110px;
+  height: 110px;
+  animation-delay: 0s;
+  animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+  left: 65%;
+  width: 70px;
+  height: 70px;
+  animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+  left: 75%;
+  width: 160px;
+  height: 160px;
+  animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+  left: 35%;
+  width: 200px;
+  height: 200px;
+  animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+  left: 50%;
+  width: 75px;
+  height: 75px;
+  animation-delay: 15s;
+  animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+  left: 20%;
+  width: 65px;
+  height: 65px;
+  animation-delay: 2s;
+  animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+  left: 85%;
+  width: 200px;
+  height: 200px;
+  animation-delay: 0s;
+  animation-duration: 11s;
+}
+
+
+
+@keyframes animate {
+
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+
+}
+
+
+
+
+/*.eye {*/
+/*  position: absolute;*/
+/*  width: 100px;*/
+/*  height: 100px;*/
+/*  border-radius: 50%;*/
+/*  left: 23%;*/
+/*  top: 24%;*/
+/*  background-color: white;*/
+/*  pointer-events: none;*/
+/*  border: 3px solid #76becf;*/
+/*}*/
+
+/*.eye + .eye {*/
+/*  left: 52%;*/
+/*}*/
+
+/*.pupil {*/
+/*  position: relative;*/
+/*  width: 20px;*/
+/*  height: 20px;*/
+/*  border-radius: 50%;*/
+/*  background-color: grey;*/
+/*  left: 50%;*/
+/*  top: 50%;*/
+/*  margin-left: -10px;*/
+/*  margin-top: -10px;*/
+/*  transition: all .5s ease;*/
+/*}*/
+
+/*.eyelid {*/
+/*  border: 5px solid #76becf;*/
+/*  border-radius: 100%;*/
+/*  width: 100px;*/
+/*  height: 20px;*/
+/*  background-color: #76becf;*/
+/*  position: absolute;*/
+/*  left: 23%;*/
+/*  top: 24%;*/
+/*  pointer-events: none;*/
+/*  -webkit-animation-name: blink;*/
+/*  -webkit-animation-duration: 4.5s;*/
+/*  -webkit-animation-iteration-count: infinite;*/
+/*  -webkit-animation-timing-function: linear;*/
+/*  -webkit-animation-direction: alternate;*/
+/*  -webkit-animation-delay: 1s;*/
+/*  -webkit-transition: all .5s ease;*/
+/*}*/
+
+/*.eyelid + .eyelid {*/
+/*  left: 52%;*/
+/*}*/
+
+/*.hitbox:hover ~ .eyelid {*/
+/*  -webkit-transform: rotate(-10deg);*/
+/*}*/
+
+/*.hitbox:hover ~ .eyelid:nth-of-type(2n+1) {*/
+/*  -webkit-transform: rotate(10deg);*/
+/*}*/
+
+/*#c-3:hover ~ .eyelid {*/
+/*  -webkit-transform:  rotate(15deg);*/
+/*}*/
+
+/*#c-3:hover ~ .eyelid:nth-of-type(2n+1) {*/
+/*  -webkit-transform: rotate(-15deg);*/
+/*}*/
+
+/*#c-3:hover ~ .eye .pupil {*/
+/*  background-color: red;*/
+/*}*/
+
+/*#a-1:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(60deg) translate(-30px);*/
+/*}*/
+
+/*#a-2:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(80deg) translate(-30px);*/
+/*}*/
+
+/*#a-3:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(90deg) translate(-30px);*/
+/*}*/
+
+/*#a-4:hover ~.eye > .pupil {*/
+/*  -webkit-transform: rotate(100deg) translate(-30px);*/
+/*}*/
+
+/*#a-5:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(120deg) translate(-30px);*/
+/*}*/
+
+/*#b-1:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(50deg) translate(-25px);*/
+/*}*/
+
+/*#b-2:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(70deg) translate(-25px);*/
+/*}*/
+
+/*#b-3:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(90deg) translate(-25px);*/
+/*}*/
+
+/*#b-4:hover ~.eye > .pupil {*/
+/*  -webkit-transform: rotate(110deg) translate(-25px);*/
+/*}*/
+
+/*#b-5:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(130deg) translate(-25px);*/
+/*}*/
+
+/*#c-1:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(0deg) translate(-25px);*/
+/*}*/
+
+/*#c-2:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(0deg) translate(-10px);*/
+/*}*/
+
+/*#c-3:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(0deg) translate(20px);*/
+/*}*/
+
+/*#c-3:hover ~ .eye:nth-of-type(2n+1) > .pupil {*/
+/*  -webkit-transform: rotate(0deg) translate(-20px);*/
+/*}*/
+
+/*#c-4:hover ~.eye > .pupil {*/
+/*  -webkit-transform: rotate(0deg) translate(10px);*/
+/*}*/
+
+/*#c-5:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(0deg) translate(25px);*/
+/*}*/
+
+/*#d-1:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-50deg) translate(-25px);*/
+/*}*/
+
+/*#d-2:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-70deg) translate(-25px);*/
+/*}*/
+
+/*#d-3:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-90deg) translate(-25px);*/
+/*}*/
+
+/*#d-4:hover ~.eye > .pupil {*/
+/*  -webkit-transform: rotate(-110deg) translate(-25px);*/
+/*}*/
+
+/*#d-5:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-130deg) translate(-25px);*/
+/*}*/
+
+/*#e-1:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-40deg) translate(-30px);*/
+/*}*/
+
+/*#e-2:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-60deg) translate(-30px);*/
+/*}*/
+
+/*#e-3:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-80deg) translate(-30px);*/
+/*}*/
+
+/*#e-4:hover ~.eye > .pupil {*/
+/*  -webkit-transform: rotate(-100deg) translate(-30px);*/
+/*}*/
+
+/*#e-5:hover ~ .eye > .pupil {*/
+/*  -webkit-transform: rotate(-120deg) translate(-30px);*/
+/*}*/

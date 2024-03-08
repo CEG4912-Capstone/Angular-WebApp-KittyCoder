@@ -1,0 +1,39 @@
+<div class="profile">
+<mat-toolbar class="mat-elevation-z6">
+  <button mat-icon-button>
+  </button>
+  <span>Welcome, Jane!</span>
+  <span class="example-spacer"></span>
+  <button class="profile-btn" align="right" mat-button>Messages</button>
+  <button class="profile-btn" align="right" mat-button>Help</button>
+  <button class="profile-btn" align="right" mat-button>Settings</button>
+
+</mat-toolbar>
+
+<mat-card class="profile-card">
+  <mat-card-header>
+    <div mat-card-avatar class="card-avatar profile-image">
+    </div>
+    <mat-card-title>Jane Doe</mat-card-title>
+    <mat-card-subtitle>Student</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field class="Profile-Bio">
+      <mat-label>Bio</mat-label>
+      <textarea matInput placeholder="Tell me about yourself!"></textarea>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
+
+<mat-tab-group>
+  <mat-tab class="tab" label="My Classes">
+    <div class="my-classes-box mat-elevation-z4">
+      Here are all your enrolled classes!
+    </div>
+  </mat-tab>
+  <mat-tab class="tab" label="My Projects">
+    <div class="my-projects-box mat-elevation-z4">
+      Here are all your projects!
+    </div></mat-tab>
+</mat-tab-group>
+</div>

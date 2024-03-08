@@ -1,0 +1,62 @@
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.profile{
+  margin-top: -50px;
+}
+
+.profile-btn{
+  background-color: lightblue;
+  margin: 5px;
+}
+
+.profile-image{
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-bottom: 30px;
+  object-fit: cover;
+}
+
+.card-avatar{
+  background-image: url('https://images.squarespace-cdn.com/content/v1/5f4fde63fa39ac5601b24d24/a64b8524-4a2e-4e5a-88ae-88ef9bd7f2a1/Untitled+design+(67).png');
+  background-size: cover;
+
+}
+
+.Profile-Bio {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: -10px !important;
+}
+
+/*tabs*/
+.mat-mdc-tab-group, .mat-mdc-tab-nav-bar:focus {
+  --mdc-tab-indicator-active-indicator-color: lightblue;
+  --mat-tab-header-active-label-text-color:lightblue;
+  --mat-tab-header-active-focus-label-text-color: lightblue;
+  --mat-tab-header-active-hover-label-text-color: lightblue;
+  --mat-tab-header-active-focus-indicator-color: lightblue;
+  --mat-tab-header-active-hover-indicator-color: lightblue;
+  --mat-tab-header-active-ripple-color: lightblue;
+  --mat-tab-header-inactive-ripple-color: lightblue;
+
+}
+
+.my-classes-box, .my-projects-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  height: 250px;
+  width: 300px;
+}
+
+.example-spacer{
+  flex: 1 1 auto;
+}
+

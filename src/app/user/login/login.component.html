@@ -1,0 +1,143 @@
+
+<div class="login-container">
+
+<!--  <mat-card class="login-eyes">-->
+<!--    <div class="hit-area">-->
+<!--&lt;!&ndash;      <div class="hitbox" id="a-1"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="a-2"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="a-3"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="a-4"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="a-5"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="b-1"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="b-2"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="b-3"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="b-4"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="b-5"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="c-1"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="c-2"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="c-3"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="c-4"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="c-5"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="d-1"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="d-2"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="d-3"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="d-4"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="d-5"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="e-1"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="e-2"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="e-3"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="e-4"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="hitbox" id="e-5"></div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div class="eye">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="pupil"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="eye">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="pupil"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="eyelid"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="eyelid"></div>&ndash;&gt;-->
+
+<!--    </div>-->
+<!--  </mat-card>-->
+
+  <mat-card class="login-card">
+      <mat-card-content class="login-field">
+        <form [formGroup]="user1" (change)="reset()">
+
+          <h2 class="title">Sign In</h2>
+          <mat-error *ngIf="invalid" class="login-error" style="padding-bottom: 20px"> The username and password were not recognised </mat-error>
+
+          <div>
+            <mat-form-field class="full-width-input">
+              <input matInput placeholder="Email" type="email" formControlName="loginEmail" required>
+              <mat-error> Please provide a valid email address </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width-input">
+              <input matInput [type]="hide ? 'password' : 'text'" #loginPassword type="password" placeholder="Password" formControlName="loginPassword" required>
+              <button class="show" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error> Please provide a valid password </mat-error>
+            </mat-form-field>
+          </div>
+
+          <button type="submit" (click)="checkUser()" class="login-btn" mat-raised-button color="primary">Login</button>
+<!--          <span>Don't have an account? <a class="sign-in" (click)="signIn()" routerLink="/sign-in">Sign In</a></span>-->
+        </form>
+      </mat-card-content>
+
+    <mat-card-content class="login-field2 slide-animation" [ngClass]="{'toggle-left': isToggleLeft, 'toggle-right': !isToggleLeft}">
+
+      <div class="toggle-panel">
+        <h1 style="color: black; font-size: xxx-large">Hello, Friend!</h1>
+        <div *ngIf="isToggleLeft">
+          <p style="color: black; font-size: x-large">Don't have an account, sign up here!</p>
+          <button mat-button class="login-btn toggle-btn" (click)="togglePanel()"> Sign Up</button>
+        </div>
+        <div *ngIf="!isToggleLeft">
+          <p style="color: black; font-size: x-large">Already have an account, sign in here!</p>
+          <button mat-button class="login-btn toggle-btn" (click)="togglePanel()"> Sign In</button>
+        </div>
+        <div class="image"></div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-content class="login-field sign">
+      <form class="sign-form" [formGroup]="user2" >
+
+        <h2 class="title">Sign Up</h2>
+
+        <div>
+          <label>Username: </label>
+          <mat-form-field class="full-width-input">
+            <input (ngModelChange)="retrieveName()" matInput #userName placeholder="Username" maxlength="10" formControlName="userName" required>
+            <mat-hint>{{userName.value.length || 0}}/10</mat-hint>
+            <mat-error *ngIf="!usernameAlreadyExists && userName.value.length<=5"> Minimum Required characters {{userName.value.length || 0}}/5 </mat-error>
+            <mat-error *ngIf="usernameAlreadyExists"> Username Already Exists </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <label>Email: </label>
+          <mat-form-field class="full-width-input">
+            <input (ngModelChange)="retrieveEmail()" matInput placeholder="Email" type="email" formControlName="email" required>
+            <mat-error *ngIf="!emailAlreadyExists"> Please provide a valid email address </mat-error>
+            <mat-error *ngIf="emailAlreadyExists"> Email Already Exists </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <label>Password: </label>
+          <mat-form-field class="password">
+            <input matInput [type]="hide1 ? 'password' : 'text'" #firstPassword type="password" placeholder="Password" formControlName="password" required>
+            <button class="show" mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide1">
+              <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="firstPassword.value?.length!=0"> * Minimum 8 chars in total.</mat-error>
+            <mat-error *ngIf="firstPassword.value?.length!=0"> * At least two letters.</mat-error>
+            <mat-error *ngIf="firstPassword.value?.length!=0"> * At least two digits or symbols.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <label>Confirm Password: </label>
+          <mat-form-field class="full-width-input">
+            <input matInput [type]="hide2 ? 'password' : 'text'" #secondPassword type="password" placeholder="Confirm Password" formControlName="confirmedPassword" required>
+            <button class="show" mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+              <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error > Passwords do not Match </mat-error>
+          </mat-form-field>
+        </div>
+
+        <button [disabled]="!user2.valid" type="submit" class="login-btn" (click)="onSubmit()" mat-raised-button color="primary">Create Account</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+

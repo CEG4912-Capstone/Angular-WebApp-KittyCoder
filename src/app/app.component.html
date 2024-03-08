@@ -1,0 +1,45 @@
+<mat-toolbar class="top-menu">
+  <img width="50" height="50" src="favicon.ico" alt="Kitty Coder">
+  <button style="margin: 10px" class="top-title" type="button" mat-button routerLink="/home" routerLinkActive="true"><mat-icon>home</mat-icon> Kitty Coder </button>
+
+  <button style="margin: 10px" class="top-title" type="button" mat-button routerLink="user/login" routerLinkActive="true">
+    <mat-icon>forward</mat-icon>
+    Login
+  </button>
+</mat-toolbar>
+
+<mat-drawer-container class="example-container" autosize>
+
+
+
+  <mat-drawer #drawer class="example-sidenav" mode="push">
+    <mat-nav-list>
+    <mat-list-item class="route-btn" routerLink="user/profile/1" routerLinkActive="focus" (click)="showFiller = !showFiller" mat-raised-button>
+     <mat-icon style="margin-bottom: -5px">account_circle</mat-icon> Profile
+    </mat-list-item>
+
+    <mat-list-item class="route-btn" routerLink="project/codeblock/1" routerLinkActive="focus" (click)="showFiller = !showFiller" mat-raised-button>
+      <mat-icon style="margin-bottom: -5px">build</mat-icon> Project
+    </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+
+
+
+  <div class="content-container">
+
+    <button class="nav-button" type="button" mat-button (click)="drawer.toggle()">
+      <p class="nav-icon"><svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="top" x="20" y="29" width="60" height="7.85106" fill="lightblue" />
+        <rect class="middle" x="20" y="45.5745" width="60" height="7.85106" fill="lightblue" />
+        <rect class="bottom" x="20" y="62.1489" width="60" height="7.85106" fill="lightblue" />
+      </svg></p>
+    </button>
+  </div>
+
+  <!--routing-->
+  <router-outlet></router-outlet>
+
+</mat-drawer-container>
+
