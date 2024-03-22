@@ -1,22 +1,32 @@
 
-<mat-card cdkDropList #listPrompts="cdkDropList" [cdkDropListData]="prompts" [cdkDropListConnectedTo]="[codePrompts]" (cdkDropListDropped)="drop($event)">
+<mat-card
+  cdkDropList
+  #listPrompts="cdkDropList"
+  [cdkDropListData]="prompts"
+  [cdkDropListConnectedTo]="[codePrompts]"
+  (cdkDropListDropped)="dropEdit($event)"
+  class="">
   <mat-card-title style="margin: 20px"> <mat-icon style="margin-bottom: -5px"> list_alt</mat-icon> List of Prompts </mat-card-title>
-  <div  cdkDrag *ngFor="let prompt of prompts" (cdkDragDropped)="editPrompt($event, prompt)">
+  <div class="" cdkDrag *ngFor="let prompt of prompts; let i = index" (cdkDragDropped)="editPrompt($event, prompt)">
     <app-draggable-prompts class="prompt" [prompt]="prompt"></app-draggable-prompts>
-    <!-- Remaining code for mobile drag handle -->
   </div>
 </mat-card>
-
 
 <mat-card>
   <div style="display: flex; justify-content: space-between; margin: 20px">
     <mat-card-title> <mat-icon style="margin-bottom: -5px">code</mat-icon> Code Editor </mat-card-title>
-    <button style="background-color: green; color: white" mat-button> 	<mat-icon>play_arrow</mat-icon> Run Code </button>
+    <button (click)="generateImage()" style="background-color: green; color: white" mat-button> 	<mat-icon>play_arrow</mat-icon> Run Code </button>
   </div>
-  <mat-card style="border: groove 5px" cdkDropList #codePrompts="cdkDropList" [cdkDropListData]="codes" [cdkDropListConnectedTo]="[listPrompts]" (cdkDropListDropped)="drop($event)">
-  <div cdkDrag *ngFor="let code of codes" (cdkDragDropped)="editPrompt($event, code)">
+
+  <mat-card style="border: groove 5px"
+            cdkDropList
+            #codePrompts="cdkDropList"
+            [cdkDropListData]="codes"
+            [cdkDropListConnectedTo]="[listPrompts]"
+            (cdkDropListDropped)="dropList($event)"
+            class="example-list">
+  <div cdkDrag class="example-box" *ngFor="let code of codes" (cdkDragDropped)="editPrompt($event, code)">
     <app-draggable-prompts class="prompt" [prompt]="code"></app-draggable-prompts>
-    <!-- Remaining code for mobile drag handle -->
   </div>
   </mat-card>
 </mat-card>
@@ -26,6 +36,7 @@
 <mat-card>
   <mat-card-title style="margin: 20px"> <mat-icon style="margin-bottom: -5px">visibility</mat-icon> Preview </mat-card-title>
   <div class="preview-container">
-    <div class="ball" [@moveBall]="getBallPosition()" [ngStyle]="getBallStyle()"></div>
+<!--    <div class="ball" [@moveBall]="getBallPosition()" [ngStyle]="getBallStyle()"></div>-->
+    <img [src]="generatedImage" alt="Generated Image">
   </div>
 </mat-card>

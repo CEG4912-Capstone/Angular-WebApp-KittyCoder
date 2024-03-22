@@ -1,12 +1,21 @@
 import { Component } from '@angular/core';
-import {CdkDrag, CdkDragDrop, CdkDropList, DragDropModule, transferArrayItem} from "@angular/cdk/drag-drop";
-import {NgForOf, NgStyle} from "@angular/common";
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList, copyArrayItem,
+  DragDropModule,
+  moveItemInArray,
+  transferArrayItem
+} from "@angular/cdk/drag-drop";
+import {NgForOf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {DraggablePromptsComponent} from "./draggable-prompts/draggable-prompts.component";
 import {MatCard, MatCardTitle, MatCardTitleGroup} from "@angular/material/card";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {animate, transition, trigger} from "@angular/animations";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {HttpClient} from "@angular/common/http";
+import {MatGridTile} from "@angular/material/grid-list";
 
 interface IPrompt {
   text: string;
@@ -30,7 +39,9 @@ interface IPrompt {
     MatCardTitle,
     NgStyle,
     MatButton,
-    MatIcon
+    MatIcon,
+    NgOptimizedImage,
+    MatGridTile
   ],
   templateUrl: './blockcode.component.html',
   styleUrl: './blockcode.component.css',
@@ -52,44 +63,60 @@ export class BlockcodeComponent {
   codes: IPrompt[] = [
     //empty at first
   ];
-  showEmpty: boolean = false;
 
-  constructor(private _snackBar: MatSnackBar) {
+  showEmpty: boolean = false;
+  generatedImage: string | ArrayBuffer | null = null;
+
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
   }
 
+  noReturn() {
+    return false;
+  }
 
-  drop(event: CdkDragDrop<IPrompt[]>): void {
+  generateImage() {
+    // Send a POST request to your Express server
+    this.http.post<any>('http://localhost:9000/api/preview', null)
+      .subscribe(
+        (data) => {
+          console.log('image generated!')
+          // Set the base64 image data received from the server
+          this.generatedImage = 'data:image/png;base64,' + data.base64image;
+        },
+        (error) => {
+          console.error('Error fetching image:', error);
+        }
+      );
+  }
+
+  dropList(event: CdkDragDrop<IPrompt[]>): void {
     if (event.previousContainer === event.container) {
-      return;
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      copyArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
     }
-    if (!event.container.data || !event.previousContainer.data) {
-      return;
+
+  }
+
+  dropEdit(event: CdkDragDrop<IPrompt[]>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      console.log("dropped in prompts")
+
+      // removes item from list
+      event.previousContainer.data.splice(event.previousIndex, 1)
     }
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex
-    );
-    this.showEmpty = true;
+
   }
 
   editPrompt(event: CdkDragDrop<IPrompt[]>, prompt: IPrompt) {
       this._snackBar.open(`Prompt #${prompt.text + prompt.steps} Updated`, 'Dismiss', {duration:1000});
   }
 
-  getBallPosition(): string {
-    // Calculate the total distance traveled by the ball
-    const totalDistance = this.codes.reduce((acc, prompt) => acc + prompt.steps, 0);
-
-    // Determine the position of the ball based on the total distance
-    const percentage = totalDistance > 100 ? 100 : totalDistance; // Limit to 100%
-    return `${percentage}%`;
-  }
-
-  getBallStyle(): any {
-    return {
-      left: this.getBallPosition(),
-    };
-  }
 }

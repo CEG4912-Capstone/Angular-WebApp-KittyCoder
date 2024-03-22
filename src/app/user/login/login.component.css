@@ -28,7 +28,7 @@
   min-width: 60vw;
   height: 80vh;
   background: hsla(0, 0%, 100%, 0.55);
-  backdrop-filter: blur(30px);
+  /*backdrop-filter: blur(30px);*/
   border-radius: 10px;
   z-index: 0
   /*margin-left: -100px;*/
@@ -46,7 +46,7 @@
 
 /* Add a class to handle the animation */
 .slide-animation {
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease;
 }
 
 /* Other styles remain unchanged */
@@ -61,14 +61,14 @@
 }
 
 .image {
-  background: url("/favicon.ico");
-  background-size: cover;
+  /*background: url("/favicon.ico");*/
+  /*background-size: cover;*/
   height: 100%;
   width: 100%;
   position: absolute;  /* Position the image absolutely within the .toggle-panel */
   top: 0;
   left: 0;
-  filter: blur(30px);
+  /*filter: blur(30px);*/
 
   z-index: -1;
 }
@@ -85,7 +85,7 @@
   text-align: center;
   padding: 20px;
   margin-right: -800px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(30px);
   position: relative;
 }
 
