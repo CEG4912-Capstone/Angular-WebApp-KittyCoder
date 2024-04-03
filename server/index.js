@@ -44,17 +44,8 @@ const openai = new OpenAI({
 app.post("/api/preview",(req, res) => {
 
   try {
-    const prompt = req.body;
-
-    console.log(prompt)
-
-    let direction;
-    let type;
-    let steps;
-
-    // coordinates
-    let x = 200;
-    let y = 100;
+    const commands = req.body;
+    console.log(commands);
 
     // Create a canvas
     let canvasWidth = 500;
@@ -62,115 +53,116 @@ app.post("/api/preview",(req, res) => {
     const canvas = createCanvas(canvasWidth, canvasHeight);
     const context = canvas.getContext('2d');
 
-    // Draw white background
-    context.fillStyle = '#ffffff';
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw black line with dynamic width based on user input
-    context.beginPath();
-    //context.strokeStyle = '#000000';
-    context.lineWidth = 1; // Use user input for line width, default to 1 if not provided
-
-
-    // arrow head for direction
-    // context.beginPath();
-    // context.strokeStyle = "red";
-    // context.moveTo(x, y);
-    // context.lineTo(185, 120);
-    // context.stroke();
-    // context.moveTo(x, y);
-    // context.lineTo(215, 120);
-    // context.stroke();
-
-    //black lines
-    context.strokeStyle = '#000000';
-
-    // start
-    context.moveTo(x, y);
-
-    for(let i= 0; i < prompt.length; i++){
-      direction = prompt[i].direction;
-      type = prompt[i].movementType;
-      steps = prompt[i].steps * 10;
-
-
-      //move
-      if(type === "Move"){
-        //direction
-        if(direction === "Forward"){
-          x = x + steps;
-
-        } else if (direction === "Backward"){
-
-          x = x - steps;
-        }
-
-        // Check if x or y exceeds canvas dimensions
-        if(x > canvasWidth) {
-          canvasWidth = x + 50; // Add some padding
-          canvas.width = canvasWidth;
-          context.canvas.width = canvasWidth;
-        }
-        if(y > canvasHeight) {
-          canvasHeight = y + 50; // Add some padding
-          canvas.height = canvasHeight;
-          context.canvas.height = canvasHeight;
-        }
-
-        context.lineTo(x, y);
-        context.stroke();
-        context.moveTo(x, y);
-      }
-
-      //turn
-      if(type === "Turn"){
-
-        let radius = steps;
-        context.beginPath();
-
-        //direction
-        if(direction === "Right"){
-          context.arc(x, y, radius,0, (Math.PI) / 2, false);
-          y = y + steps;
-          x = x - steps;
-
-
-        } else if(direction === "Left"){
-          context.arc(x, y, radius,0, (Math.PI * 3) / 2, true);
-          //context.arcTo(200, 130, 50, 20, 40);
-          y = y - steps;
-          x = x - steps;
-        }
-
-        //context.lineTo(x, y);
-        context.stroke();
-        context.moveTo(x, y);
-      }
-
-      // rectangle
-      // stroke it but no fill
-      //context.roundRect(300, 100, 50, 50, 5);
-      //context.stroke();
-
-
+    // Reset canvas and turtle settings
+    function resetCanvas() {
+      context.fillStyle = '#ffffff'; // White background
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.strokeStyle = '#000000'; // Black for line color
+      context.lineWidth = 1; // Default line width
     }
 
-    // open ai request
-    // const response = openai.completions.create({
-    //   model: 'text-davinci-002',
-    //   prompt: prompt,
-    //   max_tokens: 50,
-    //   temperature: 0.7,
-    //   top_p: 1,
-    //   n: 1,
-    //   stop: '\n\n',
-    //   echo: false,
-    //   stream: false,
-    //   return_prompt: false,
-    //   logit_bias: null,
-    // });
+    // Initialize turtle and canvas
+    let turtle = {
+      x: 200,
+      y: 100,
+      angle: 0, // looking right
+      penDown: true,
+    };
+    resetCanvas();
 
+    // Turtle movement logic
+    function moveTurtle(distance, direction) {
+      // Check if we need to rotate for backward movement
+      if (direction === 'Backward') {
+        // Rotate 180 degrees to face backward, move, then optionally rotate back
+        rotateTurtle(180, 'Backward');
+      }
 
+      const dx = Math.cos(turtle.angle) * distance;
+      const dy = Math.sin(turtle.angle) * distance;
+
+      if (turtle.penDown) {
+        context.beginPath();
+        context.moveTo(turtle.x, turtle.y);
+        context.lineTo(turtle.x + dx, turtle.y + dy);
+        context.stroke();
+      }
+
+      // Update turtle position
+      turtle.x += dx;
+      turtle.y += dy;
+    }
+
+    // Turtle rotation logic
+    function rotateTurtle(degrees, direction) {
+      // Convert degrees to radians for rotation
+      const radians = degrees * (Math.PI / 180);
+
+      // Adjust the turtle's angle based on direction
+      if (direction === 'Right') {
+        turtle.angle += radians;
+      } else if (direction === 'Left') {
+        turtle.angle -= radians;
+      } else if (direction === 'Backward') {
+        // For backward, effectively rotate 180 degrees
+        turtle.angle += Math.PI;
+      }
+
+      // Move forward a bit to view arrow head better
+      moveTurtle(20,'Forward');
+
+      // Normalize the angle to ensure it's within 0 - 2PI range
+      //turtle.angle = (turtle.angle + 2 * Math.PI) % (2 * Math.PI);
+    }
+
+    // Draw turtle at current position
+    function drawTurtle() {
+      const headLength = 20; // Length of the lines representing the turtle's "head"
+      context.beginPath();
+      // Adding π (180 degrees) to flip the arrowhead left
+      const adjustedAngle = turtle.angle + Math.PI;
+
+      // Points for the arrowhead, creating two sides of a triangle
+      const endX1 = turtle.x + Math.cos(adjustedAngle - Math.PI / 6) * headLength;
+      const endY1 = turtle.y + Math.sin(adjustedAngle - Math.PI / 6) * headLength;
+
+      const endX2 = turtle.x + Math.cos(adjustedAngle + Math.PI / 6) * headLength;
+      const endY2 = turtle.y + Math.sin(adjustedAngle + Math.PI / 6) * headLength;
+
+      // Draw lines from the turtle's position to create the arrowhead
+      context.moveTo(turtle.x, turtle.y);
+      context.lineTo(endX1, endY1);
+
+      context.moveTo(turtle.x, turtle.y);
+      context.lineTo(endX2, endY2);
+
+      // Style for the arrowhead
+      context.strokeStyle = 'red'; // Color for visibility
+      context.stroke();
+
+      // Reset the stroke color for other drawings
+      context.strokeStyle = '#000000';
+    }
+
+    // Process each command
+    commands.forEach(command => {
+      const { direction, movementType, steps } = command;
+
+      switch (movementType) {
+        case "Move":
+          moveTurtle(steps * 10, direction);
+          break;
+        case "Turn":
+          rotateTurtle(90, direction); // Assuming 90 degree turns for simplicity
+          break;
+        case 'Reset':
+          resetCanvas(); // Reset canvas on 'Reset' command
+          break;
+      }
+    });
+
+    // After processing commands, draw the turtle
+    drawTurtle();
 
     // Convert canvas to base64 image
     const base64Image = canvas.toDataURL().split(';base64,').pop();
