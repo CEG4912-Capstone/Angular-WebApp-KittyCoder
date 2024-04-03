@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Renderer2} from '@angular/core';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -16,6 +16,7 @@ import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {HttpClient} from "@angular/common/http";
 import {MatGridTile} from "@angular/material/grid-list";
+import {MatChipGrid} from "@angular/material/chips";
 
 interface IPrompt {
   text: string;
@@ -41,7 +42,8 @@ interface IPrompt {
     MatButton,
     MatIcon,
     NgOptimizedImage,
-    MatGridTile
+    MatGridTile,
+    MatChipGrid
   ],
   templateUrl: './blockcode.component.html',
   styleUrl: './blockcode.component.css',
@@ -53,10 +55,10 @@ interface IPrompt {
 })
 export class BlockcodeComponent {
   prompts: IPrompt[] = [
-    { text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
-    { text: 'Move backward', steps: 20, movementType: 'Move', direction: 'Backward' },
-    { text: 'Turn right', steps: 3, movementType: 'Turn', direction: 'Right' },
-    { text: 'Turn left', steps: 5, movementType: 'Turn', direction: 'Left' },
+    { text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward'},
+    { text: 'Move backward', steps: 10, movementType: 'Move', direction: 'Backward'},
+    { text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right'},
+    { text: 'Turn left', steps: 10, movementType: 'Turn', direction: 'Left'},
     // Add more prompts as needed
   ];
 
@@ -64,19 +66,23 @@ export class BlockcodeComponent {
     //empty at first
   ];
 
+  isDragging: boolean = false;
+
   showEmpty: boolean = false;
   generatedImage: string | ArrayBuffer | null = null;
 
-  constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
+  constructor(private renderer: Renderer2, private _snackBar: MatSnackBar, private http: HttpClient) {
   }
 
   noReturn() {
     return false;
   }
 
-  generateImage() {
+  generateImage(executable:IPrompt[]) {
     // Send a POST request to your Express server
-    this.http.post<any>('http://localhost:9000/api/preview', null)
+    this.http.post<any>('http://localhost:9000/api/preview',
+      this.codes
+      )
       .subscribe(
         (data) => {
           console.log('image generated!')
@@ -91,7 +97,10 @@ export class BlockcodeComponent {
 
   dropList(event: CdkDragDrop<IPrompt[]>): void {
     if (event.previousContainer === event.container) {
+      //console.log(this.codes);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
+
     } else {
       copyArrayItem(
         event.previousContainer.data,
@@ -105,14 +114,16 @@ export class BlockcodeComponent {
 
   dropEdit(event: CdkDragDrop<IPrompt[]>): void {
     if (event.previousContainer === event.container) {
+
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
     } else {
-      console.log("dropped in prompts")
+      console.log("dropped in prompts");
 
       // removes item from list
       event.previousContainer.data.splice(event.previousIndex, 1)
-    }
 
+    }
   }
 
   editPrompt(event: CdkDragDrop<IPrompt[]>, prompt: IPrompt) {

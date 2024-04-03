@@ -1,7 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {CdkDrag} from "@angular/cdk/drag-drop";
-import {NgForOf} from "@angular/common";
+import {CdkDrag, CdkDragDrop, CdkDropList, copyArrayItem, moveItemInArray} from "@angular/cdk/drag-drop";
+import {NgForOf, NgStyle} from "@angular/common";
 import {MatButton} from "@angular/material/button";
+import {MatCard} from "@angular/material/card";
 
 interface IPrompt {
   text: string;
@@ -14,7 +15,10 @@ interface IPrompt {
   imports: [
     CdkDrag,
     NgForOf,
-    MatButton
+    MatButton,
+    CdkDropList,
+    MatCard,
+    NgStyle
   ],
   templateUrl: './draggable-prompts.component.html',
   styleUrl: './draggable-prompts.component.css'
@@ -23,4 +27,8 @@ export class DraggablePromptsComponent {
 
   @Input()
   prompt: IPrompt | undefined;
+
+  @Input()
+  i:any;
+
 }

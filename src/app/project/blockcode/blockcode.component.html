@@ -5,9 +5,9 @@
   [cdkDropListData]="prompts"
   [cdkDropListConnectedTo]="[codePrompts]"
   (cdkDropListDropped)="dropEdit($event)"
-  class="">
+  >
   <mat-card-title style="margin: 20px"> <mat-icon style="margin-bottom: -5px"> list_alt</mat-icon> List of Prompts </mat-card-title>
-  <div class="" cdkDrag *ngFor="let prompt of prompts; let i = index" (cdkDragDropped)="editPrompt($event, prompt)">
+  <div cdkDrag *ngFor="let prompt of prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
     <app-draggable-prompts class="prompt" [prompt]="prompt"></app-draggable-prompts>
   </div>
 </mat-card>
@@ -15,7 +15,7 @@
 <mat-card>
   <div style="display: flex; justify-content: space-between; margin: 20px">
     <mat-card-title> <mat-icon style="margin-bottom: -5px">code</mat-icon> Code Editor </mat-card-title>
-    <button (click)="generateImage()" style="background-color: green; color: white" mat-button> 	<mat-icon>play_arrow</mat-icon> Run Code </button>
+    <button (click)="generateImage(codes)" style="background-color: green; color: white" mat-button> 	<mat-icon>play_arrow</mat-icon> Run Code </button>
   </div>
 
   <mat-card style="border: groove 5px"
