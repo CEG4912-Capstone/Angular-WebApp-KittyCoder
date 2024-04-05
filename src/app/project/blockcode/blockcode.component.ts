@@ -207,7 +207,7 @@ export class BlockcodeComponent {
       // remove the original item
       if (event.previousIndex >= event.currentIndex) {
         // adjust for the item just added
-        event.container.data.splice(event.previousIndex + 1, 1);
+        event.container.data.splice(event.previousIndex - 1, 1);
       } else {
         event.container.data.splice(event.previousIndex, 1);
       }
