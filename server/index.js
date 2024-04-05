@@ -41,6 +41,68 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
 });
 
+app.post("/api/reset-preview",(req, res) => {
+  try{
+    // Create a canvas
+    let canvasWidth = 500;
+    let canvasHeight = 500;
+    const canvas = createCanvas(canvasWidth, canvasHeight);
+    const context = canvas.getContext('2d');
+
+    // Reset canvas and turtle settings
+
+      context.fillStyle = '#ffffff'; // White background
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.strokeStyle = '#000000'; // Black for line color
+      context.lineWidth = 1; // Default line width
+
+    // Initialize turtle and canvas
+    let turtle = {
+      x: 200,
+      y: 100,
+      angle: 0, // looking right
+      penDown: true,
+    };
+
+    const headLength = 20; // Length of the lines representing the turtle's "head"
+    context.beginPath();
+    // Adding π (180 degrees) to flip the arrowhead left
+    const adjustedAngle = turtle.angle + Math.PI;
+
+    // Points for the arrowhead, creating two sides of a triangle
+    const endX1 = turtle.x + Math.cos(adjustedAngle - Math.PI / 6) * headLength;
+    const endY1 = turtle.y + Math.sin(adjustedAngle - Math.PI / 6) * headLength;
+
+    const endX2 = turtle.x + Math.cos(adjustedAngle + Math.PI / 6) * headLength;
+    const endY2 = turtle.y + Math.sin(adjustedAngle + Math.PI / 6) * headLength;
+
+    // Draw lines from the turtle's position to create the arrowhead
+    context.moveTo(turtle.x, turtle.y);
+    context.lineTo(endX1, endY1);
+
+    context.moveTo(turtle.x, turtle.y);
+    context.lineTo(endX2, endY2);
+
+    // Style for the arrowhead
+    context.strokeStyle = 'red'; // Color for visibility
+    context.stroke();
+
+    // Reset the stroke color for other drawings
+    context.strokeStyle = '#000000';
+
+    // Convert canvas to base64 image
+    const base64Image = canvas.toDataURL().split(';base64,').pop();
+
+    // Send the generated image to the client
+    res.send({base64image: base64Image});
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message: "Some error occurred!"})
+  }
+});
+
+
 app.post("/api/preview",(req, res) => {
 
   try {
@@ -155,9 +217,9 @@ app.post("/api/preview",(req, res) => {
         case "Turn":
           rotateTurtle(90, direction); // Assuming 90 degree turns for simplicity
           break;
-        case 'Reset':
-          resetCanvas(); // Reset canvas on 'Reset' command
-          break;
+        // case 'Reset':
+        //   resetCanvas(); // Reset canvas on 'Reset' command
+        //   break;
       }
     });
 

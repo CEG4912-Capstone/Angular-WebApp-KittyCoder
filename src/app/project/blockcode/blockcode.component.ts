@@ -74,8 +74,34 @@ export class BlockcodeComponent {
   constructor(private renderer: Renderer2, private _snackBar: MatSnackBar, private http: HttpClient) {
   }
 
+  ngOnInit(): void{
+    this.resetCanvas();
+  }
+
   noReturn() {
     return false;
+  }
+
+  reset(){
+    this.resetCanvas();
+    this.codes.length = 0;
+  }
+
+  resetCanvas() {
+    // Send a POST request to your Express server
+    this.http.post<any>('http://localhost:9000/api/reset-preview',
+      this.codes
+    )
+      .subscribe(
+        (data) => {
+          console.log('image generated!')
+          // Set the base64 image data received from the server
+          this.generatedImage = 'data:image/png;base64,' + data.base64image;
+        },
+        (error) => {
+          console.error('Error fetching image:', error);
+        }
+      );
   }
 
   generateImage(executable:IPrompt[]) {
