@@ -2,7 +2,7 @@
   <img width="50" height="50" src="favicon.ico" alt="Kitty Coder">
   <button style="margin: 10px" class="top-title" type="button" mat-button routerLink="/home" routerLinkActive="true"><mat-icon>home</mat-icon> Kitty Coder </button>
 
-  <button style="margin: 10px" class="top-title" type="button" mat-button routerLink="user/login" routerLinkActive="true">
+  <button *ngIf="!authenticated" style="margin: 10px" class="top-title" type="button" mat-button routerLink="user/login" routerLinkActive="true">
     <mat-icon>forward</mat-icon>
     Login
   </button>
@@ -14,7 +14,7 @@
 
   <mat-drawer #drawer class="example-sidenav" mode="push">
     <mat-nav-list>
-    <mat-list-item class="route-btn" routerLink="user/profile/1" routerLinkActive="focus" (click)="showFiller = !showFiller" mat-raised-button>
+    <mat-list-item class="route-btn" routerLink="user/profile" routerLinkActive="focus" (click)="showFiller = !showFiller" mat-raised-button>
      <mat-icon style="margin-bottom: -5px">account_circle</mat-icon> Profile
     </mat-list-item>
 

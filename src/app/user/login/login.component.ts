@@ -26,6 +26,8 @@ import {RouterLink} from "@angular/router";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MatFormField, MatInputModule} from "@angular/material/input";
 import {NgClass, NgIf, NgStyle} from "@angular/common";
+import {IUser} from "../../models/user.model";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +37,10 @@ import {NgClass, NgIf, NgStyle} from "@angular/common";
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
+
+  @Output()
+  authenticated = new EventEmitter<IUser>(); // Emits the new steps value
+
 
   isToggleLeft = true; // Initial position
 
@@ -54,19 +60,19 @@ export class LoginComponent implements OnInit{
   @Output()
   loggedIn = new EventEmitter<any>();
 
-  @Output()
-  signedIn = new EventEmitter<any>();
-
   reset(){
     this.invalid = false;
   }
 
-  logIn(user:any){
-    this.loggedIn.emit(user);
-  }
-
-  signIn(){
-    this.signedIn.emit();
+  logIn(user:IUser){
+    //this.loggedIn.emit(user);
+    this._authenticationService.setCurrentUser(user);
+    this.router.navigate(['/user/profile']).then(() => {
+      // Emit the authenticated event after navigation is successful
+      // This assumes you still want to emit an event after setting the user,
+      // which might not be necessary depending on how your application is structured
+      this.authenticated.emit(user);
+    });
   }
 
   checkUser(){
@@ -103,7 +109,7 @@ export class LoginComponent implements OnInit{
   emailAlreadyExists = false;
   usernameAlreadyExists = false;
 
-  constructor(private _authenticationService : AuthenticationService,private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private router: Router,private _authenticationService : AuthenticationService,private changeDetectorRef: ChangeDetectorRef) {}
 
   matchValidator(controlName: string, matchingControlName: string): ValidatorFn {
     return (abstractControl: AbstractControl) => {
@@ -164,9 +170,12 @@ export class LoginComponent implements OnInit{
   onSubmit(){
     if(this.user2.valid && !this.emailAlreadyExists && !this.usernameAlreadyExists) {
       this.createUser = this._authenticationService.create(this.user2.value).subscribe(() => {
-        this.loggedIn.emit(this.user2.value);
-      })
+        //this.logIn(this.user2.value);
+      });
 
+      this.getUser = this._authenticationService.get(this.user2.value.email).subscribe((res)=> {
+        this.logIn(res);
+      });
       console.log("user logged in!")
     }
   }

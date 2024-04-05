@@ -1,8 +1,8 @@
-<div class="profile">
-<mat-toolbar class="mat-elevation-z6">
+<div id="pf" class="profile">
+  <mat-toolbar class="mat-elevation-z6">
   <button mat-icon-button>
   </button>
-  <span>Welcome, Jane!</span>
+  <span>Welcome, {{currentUser?.userName}}!</span>
   <span class="example-spacer"></span>
   <button class="profile-btn" align="right" mat-button>Messages</button>
   <button class="profile-btn" align="right" mat-button>Help</button>
@@ -13,16 +13,19 @@
 <mat-card class="profile-card">
   <mat-card-header>
     <div mat-card-avatar class="card-avatar profile-image">
+      <!-- Use user.avatar if available -->
+      <img *ngIf="currentUser?.avatar" [src]="currentUser?.avatar">
     </div>
-    <mat-card-title>Jane Doe</mat-card-title>
-    <mat-card-subtitle>Student</mat-card-subtitle>
+    <mat-card-title>{{currentUser?.userName}}</mat-card-title>
+    <mat-card-subtitle>{{currentUser?.email}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="Profile-Bio">
       <mat-label>Bio</mat-label>
-      <textarea matInput placeholder="Tell me about yourself!"></textarea>
+      <textarea matInput placeholder="Tell me about yourself!" [(ngModel)]="bio"></textarea>
     </mat-form-field>
   </mat-card-content>
+
 </mat-card>
 
 <mat-tab-group>

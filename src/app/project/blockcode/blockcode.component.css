@@ -55,3 +55,23 @@ mat-card {
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap onto the next line on small screens */
+  justify-content: space-around; /* Spreads out the cards evenly */
+  gap: 30px; /* Adds some space between the cards */
+}
+
+mat-card {
+  flex: 1 1 auto; /* Each card will grow to fill the space */
+  min-width: 300px; /* Sets a minimum width for each card to prevent them from getting too small */
+  min-height: 400px;
+  transition: width 0.3s ease, height 0.3s ease; /* Smooth transition for size changes */
+  overflow: hidden; /* Prevent content from overflowing */
+}
+
+.but:disabled{
+  background-color: dimgray!important;
+  border: groove;
+}

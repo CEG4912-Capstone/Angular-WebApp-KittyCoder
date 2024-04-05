@@ -5,6 +5,11 @@ body {
   margin-top: -50px;
 }
 
+.blur-background {
+  filter: blur(5px);
+}
+
+
 .profile-btn{
   background-color: lightblue;
   margin: 5px;
