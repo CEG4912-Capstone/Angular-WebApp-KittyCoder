@@ -5,6 +5,12 @@ const bodyParser = require('body-parser')
 const fs = require('fs');
 const { createCanvas, loadImage } = require('canvas');
 
+// point to self-signed certificate & key for ssl configuration
+// const options = {
+//   key: fs.readFileSync('C:\\Users\\moumi\\localhost.key'),
+//   cert: fs.readFileSync('C:\\Users\\moumi\\localhost.crt')
+// };
+
 //express module
 const app = express();
 
@@ -35,7 +41,7 @@ db.sequelize.sync()
 
 //default route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the TO-DO-LIST BACK-END application." });
+  res.json({ message: "Welcome to the KittyCoder BACK-END application." });
 });
 
 
@@ -305,6 +311,11 @@ require("./Routes/user-Routes")(app);
 const hostname = 'localhost';
 
 //run server
+// https.createServer(options, app).listen(443, 'localhost', () => {
+//   console.log(`HTTPS server running at https://${hostname}:443`);
+// });
+
+
 const PORT = 9000;
 app.listen(PORT, () => {
   console.log('HTTP REST API Server running at http://localhost:'+PORT+'.');
