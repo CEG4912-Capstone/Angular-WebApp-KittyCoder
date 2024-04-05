@@ -186,33 +186,16 @@ export class BlockcodeComponent {
 
   dropList(event: CdkDragDrop<IPrompt[]>): void {
     if (event.previousContainer === event.container) {
+      // Just rearranging items in the same list
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
-
-
     } else {
-      copyArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+      // Cloning an item to a new list
+      const itemToClone = event.previousContainer.data[event.previousIndex];
+      const clonedItem = this.cloneItemWithNewId(itemToClone);
 
-      // to fix input changes being replicated by all prompts
-      // we clone the item with a new index
-      const item = this.cloneItemWithNewId(event.container.data[event.previousIndex]);
-      // insert the cloned item at the target index
-      event.container.data.splice(event.currentIndex, 0, item);
-
-      // remove the original item
-      if (event.previousIndex >= event.currentIndex) {
-        // adjust for the item just added
-        event.container.data.splice(event.previousIndex - 1, 1);
-      } else {
-        event.container.data.splice(event.previousIndex, 1);
-      }
+      // Insert the cloned item into the target container's data array
+      event.container.data.splice(event.currentIndex, 0, clonedItem);
     }
-
   }
 
   dropEdit(event: CdkDragDrop<IPrompt[]>): void {
@@ -223,13 +206,13 @@ export class BlockcodeComponent {
       // pop and push the same item to fix focus bug
 
         // Clone item
-        const item = { ...event.container.data[event.currentIndex] };
-
-        // Pop item
-        const removedItem = event.container.data.splice(event.previousIndex, 1)[0];
-
-        // Push cloned item
-        event.container.data.splice(event.currentIndex, 0, item);
+        // const item = { ...event.container.data[event.currentIndex] };
+        //
+        // // Pop item
+        // const removedItem = event.container.data.splice(event.previousIndex, 1)[0];
+        //
+        // // Push cloned item
+        // event.container.data.splice(event.currentIndex, 0, item);
 
 
     } else {
