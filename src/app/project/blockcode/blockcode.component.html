@@ -7,8 +7,24 @@
   (cdkDropListDropped)="dropEdit($event)"
   >
   <mat-card-title style="margin: 20px"> <mat-icon style="margin-bottom: -5px"> list_alt</mat-icon> List of Prompts </mat-card-title>
-  <div cdkDrag *ngFor="let prompt of prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
-    <app-draggable-prompts class="prompt" [prompt]="prompt" (stepsChange)="handleStepsChange(prompt, $event)"></app-draggable-prompts>
+  <div class="tabs-container">
+    <mat-tab-group mat-stretch-tabs dynamicHeight="" animationDuration="0ms" class="vertical-tabs">
+      <mat-tab label="Prompts">
+        <!-- Your list of prompts here -->
+        <div cdkDrag *ngFor="let prompt of prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
+          <app-draggable-prompts class="prompt" [prompt]="prompt" (stepsChange)="handleStepsChange(prompt, $event)"></app-draggable-prompts>
+        </div>
+      </mat-tab>
+      <mat-tab label="Shapes">
+        <!-- Your shape buttons here -->
+        <button mat-raised-button (click)="drawSquare()">Square</button>
+        <button mat-raised-button>Circle</button>
+      </mat-tab>
+    </mat-tab-group>
+
+    <mat-card class="content">
+      <!-- Your content here -->
+    </mat-card>
   </div>
 </mat-card>
 

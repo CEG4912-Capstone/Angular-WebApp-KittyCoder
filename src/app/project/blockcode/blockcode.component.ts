@@ -21,19 +21,18 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../services/authentication.service";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 interface IPrompt {
   id: number;
   text: string;
   steps: number;
-  // Add properties for ball movement
   movementType: 'Move' | 'Turn';
   direction: 'Forward' | 'Backward' | 'Right' | 'Left';
 }
 
 // raspberry pi server url
-const raspberryPiUrl = 'https://raspberrypi.local/api/execute';
-
+const robotUrl = 'http://192.168.4.1';
 
 @Component({
   selector: 'app-blockcode',
@@ -53,7 +52,9 @@ const raspberryPiUrl = 'https://raspberrypi.local/api/execute';
     NgOptimizedImage,
     MatGridTile,
     MatChipGrid,
-    MatTooltip
+    MatTooltip,
+    MatTabGroup,
+    MatTab
   ],
   templateUrl: './blockcode.component.html',
   styleUrl: './blockcode.component.css',
@@ -139,10 +140,9 @@ export class BlockcodeComponent {
   }
 
   generateImage() {
-
     this.http.post<any>('http://localhost:9000/api/preview', this.codes).subscribe({
       next: (data) => {
-        console.log('image generated!')
+        console.log('image generated!');
         // Set the base64 image data received from the server
         this.generatedImage = 'data:image/png;base64,' + data.base64image;
 
@@ -220,7 +220,6 @@ export class BlockcodeComponent {
 
       // removes item from list
       event.previousContainer.data.splice(event.previousIndex, 1)
-
     }
   }
 
@@ -229,16 +228,46 @@ export class BlockcodeComponent {
   }
 
   executeRobot(): void {
-
-    this.http.post(raspberryPiUrl, this.codes).subscribe({
+    this.http.get<any>(robotUrl).subscribe({
       next: (response) => {
-        console.log('Robot execution started!', response);
-        this._snackBar.open('Robot execution started!', 'Dismiss', {duration: 2000});
+        console.log(response);
       },
       error: (error) => {
         console.error('Error executing robot commands:', error);
-        this._snackBar.open('Error executing robot commands.', 'Dismiss', {duration: 2000});
       }
     });
+    // this.http.post(robotUrl, this.codes).subscribe({
+    //   next: (response) => {
+    //     console.log('Robot execution started!', response);
+    //     this._snackBar.open('Robot execution started!', 'Dismiss', {duration: 2000});
+    //   },
+    //   error: (error) => {
+    //     console.error('Error executing robot commands:', error);
+    //     this._snackBar.open('Error executing robot commands.', 'Dismiss', {duration: 2000});
+    //   }
+    // });
   }
+
+  drawSquare() {
+    const squareCommands: IPrompt[] = [
+      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' }
+    ];
+
+    // Simulate adding each command block with a brief delay to animate
+    squareCommands.forEach((command, index) => {
+      setTimeout(() => {
+        this.codes.push(command);
+      }, index * 100); // Adjust delay as needed
+    });
+  }
+
+// Implement drawCircle and other shapes similarly
+
 }
