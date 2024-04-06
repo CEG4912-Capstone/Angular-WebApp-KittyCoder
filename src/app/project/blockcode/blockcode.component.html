@@ -17,14 +17,18 @@
       </mat-tab>
       <mat-tab label="Shapes">
         <!-- Your shape buttons here -->
+        <div class="prompt">
         <button mat-raised-button (click)="drawSquare()">Square</button>
-        <button mat-raised-button>Circle</button>
+        </div>
+        <div class="prompt">
+          <button mat-raised-button (click)="drawCircle()">Circle</button>
+        </div>
       </mat-tab>
     </mat-tab-group>
 
-    <mat-card class="content">
-      <!-- Your content here -->
-    </mat-card>
+<!--    <mat-card class="content">-->
+<!--      &lt;!&ndash; Your content here &ndash;&gt;-->
+<!--    </mat-card>-->
   </div>
 </mat-card>
 
@@ -44,7 +48,7 @@
     </button>
 
       <div matTooltip="Please login to execute the robot" [matTooltipDisabled]="authenticated">
-    <button class="but" [disabled]="!authenticated" (click)="executeRobot()" style="background-color: blue; color: white" mat-button>
+    <button class="but" [disabled]="authenticated" (click)="executeRobot()" style="background-color: blue; color: white" mat-button>
       <mat-icon>directions_run</mat-icon> Execute Robot
     </button>
       </div>

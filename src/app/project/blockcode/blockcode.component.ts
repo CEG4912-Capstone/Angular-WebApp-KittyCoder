@@ -32,7 +32,7 @@ interface IPrompt {
 }
 
 // raspberry pi server url
-const robotUrl = 'http://192.168.4.1';
+const robotUrl = 'http://192.168.2.212/post';
 
 @Component({
   selector: 'app-blockcode',
@@ -228,7 +228,10 @@ export class BlockcodeComponent {
   }
 
   executeRobot(): void {
-    this.http.get<any>(robotUrl).subscribe({
+    // make sure data sent is in json format
+    const headers = { 'Content-Type': 'application/json' };
+    console.log(this.codes)
+    this.http.post(robotUrl,JSON.stringify(this.codes), { 'headers': headers }).subscribe({
       next: (response) => {
         console.log(response);
       },
@@ -249,6 +252,9 @@ export class BlockcodeComponent {
   }
 
   drawSquare() {
+
+    this.codes = [];
+
     const squareCommands: IPrompt[] = [
       { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
       { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
@@ -268,6 +274,55 @@ export class BlockcodeComponent {
     });
   }
 
-// Implement drawCircle and other shapes similarly
+  drawCircle() {
+
+    this.codes = [];
+
+    const circleCommands: IPrompt[] = [
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
+    ];
+
+    // Simulate adding each command block with a brief delay to animate
+    circleCommands.forEach((command, index) => {
+      setTimeout(() => {
+        this.codes.push(command);
+      }, index * 100); // Adjust delay as needed
+    });
+  }
 
 }
