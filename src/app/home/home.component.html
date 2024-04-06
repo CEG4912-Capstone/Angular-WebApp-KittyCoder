@@ -4,7 +4,8 @@
         <div class="hero">
           <h1>Welcome to our platform, where creativity meets coding!</h1>
           <p>Ready to get started?</p>
-          <a href="/user/login" class="btn">Sign Up Now</a>
+          <a *ngIf="!authenticated" href="/user/login" class="btn">Sign Up Now</a>
+          <a *ngIf="authenticated" href="/user/login" class="btn">Log out</a>
         </div>
 
         <div class="features">
