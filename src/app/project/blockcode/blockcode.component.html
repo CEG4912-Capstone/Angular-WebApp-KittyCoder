@@ -79,7 +79,9 @@
     <mat-icon style="margin-bottom: -5px">visibility</mat-icon> Preview </mat-card-title>
   <div class="preview-container">
 <!--    <div class="ball" [@moveBall]="getBallPosition()" [ngStyle]="getBallStyle()"></div>-->
-    <img [src]="generatedImage" alt="Generated Image">
+    <div class="preview-container" #imageContainer>
+      <img [src]="generatedImage" alt="Generated Image" #draggableImage (mousedown)="startDragging($event)">
+    </div>
   </div>
 </mat-card>
 </div>

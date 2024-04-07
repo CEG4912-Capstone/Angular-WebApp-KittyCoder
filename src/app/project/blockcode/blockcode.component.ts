@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Renderer2} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -98,6 +98,7 @@ export class BlockcodeComponent {
         }
       })
     );
+
   }
 
   handleStepsChange(prompt: IPrompt, newSteps: number): void {
@@ -325,4 +326,58 @@ export class BlockcodeComponent {
     });
   }
 
+
+  @ViewChild('imageContainer') imageContainer: ElementRef<HTMLDivElement> | undefined;
+  @ViewChild('draggableImage') draggableImage: ElementRef<HTMLImageElement> | undefined;
+
+  private isDragging = false;
+  private startX = 0;
+  private startY = 0;
+
+  startDragging(event: MouseEvent) {
+    event.preventDefault();
+    this.isDragging = true;
+    this.startX = event.clientX;
+    this.startY = event.clientY;
+
+    // Listen for mouse move and up events on the whole document
+    document.addEventListener('mousemove', this.dragImage.bind(this));
+    document.addEventListener('mouseup', this.stopDragging.bind(this));
+  }
+
+  dragImage(event: MouseEvent) {
+    if (!this.isDragging) return;
+    event.preventDefault();
+
+    const dx = event.clientX - this.startX;
+    const dy = event.clientY - this.startY;
+
+    this.startX = event.clientX;
+    this.startY = event.clientY;
+
+    if(this.draggableImage) {
+      const currentTransform = getComputedStyle(this.draggableImage.nativeElement).transform;
+
+
+      // Handle case when transform is 'none'
+      const matrix = currentTransform === 'none'
+        ? [1, 0, 0, 1, 0, 0] // Identity matrix
+        : currentTransform.slice(7, -1).split(', ').map(parseFloat);
+
+      // Translate image
+      matrix[4] += dx; // Translate X
+      matrix[5] += dy; // Translate Y
+
+      this.draggableImage.nativeElement.style.transform = `matrix(${matrix.join(', ')})`;
+    }
+  }
+
+  stopDragging() {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+
+    // Remove event listeners
+    document.removeEventListener('mousemove', this.dragImage.bind(this));
+    document.removeEventListener('mouseup', this.stopDragging.bind(this));
+  }
 }
