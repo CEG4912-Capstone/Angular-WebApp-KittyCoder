@@ -31,7 +31,7 @@ interface IPrompt {
   direction: 'Forward' | 'Backward' | 'Right' | 'Left';
 }
 
-// raspberry pi server url
+// esp32 server url
 const robotUrl = 'http://192.168.2.212/post';
 
 @Component({
