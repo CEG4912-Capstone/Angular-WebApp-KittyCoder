@@ -1,26 +1,64 @@
 <div class="cards-container">
 <mat-card
-  cdkDropList
-  #listPrompts="cdkDropList"
-  [cdkDropListData]="prompts"
-  [cdkDropListConnectedTo]="[codePrompts]"
-  (cdkDropListDropped)="dropEdit($event)"
+  
   >
   <mat-card-title style="margin: 20px"> <mat-icon style="margin-bottom: -5px"> list_alt</mat-icon> List of Prompts </mat-card-title>
   <div class="tabs-container">
-    <mat-tab-group mat-stretch-tabs dynamicHeight="" animationDuration="0ms" class="vertical-tabs">
+    <mat-tab-group mat-stretch-tabs dynamicHeight="" >
       <mat-tab label="Prompts">
+        <mat-tab-group style="z-index: -1;">
+          <mat-tab label="Black">
+          
+          <div cdkDropList
+          #listblackPrompts="cdkDropList"
+          [cdkDropListData]="black_prompts"
+          [cdkDropListConnectedTo]="[codePrompts]"
+          (cdkDropListDropped)="dropEdit($event)" >
         <!-- Your list of prompts here -->
-        <div cdkDrag *ngFor="let prompt of prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
+        <div cdkDrag *ngFor="let prompt of black_prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
+          
           <app-draggable-prompts class="prompt" [prompt]="prompt" (stepsChange)="handleStepsChange(prompt, $event)"></app-draggable-prompts>
+        
         </div>
+
+      </div>
+      </mat-tab>
+
+      <mat-tab label="Red">
+
+      <div cdkDropList
+      #listredPrompts="cdkDropList"
+      [cdkDropListData]="red_prompts"
+      [cdkDropListConnectedTo]="[codePrompts]"
+      (cdkDropListDropped)="dropEdit($event)" >
+        <!-- Your list of prompts here -->
+        <div cdkDrag *ngFor="let prompt of red_prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
+          <app-draggable-prompts  class="prompt" [prompt]="prompt" (stepsChange)="handleStepsChange(prompt, $event)"></app-draggable-prompts>
+        </div>
+      </div> 
+      </mat-tab>
+
+      <mat-tab label="Blue">
+        <div cdkDropList
+      #listbluePrompts="cdkDropList"
+      [cdkDropListData]="blue_prompts"
+      [cdkDropListConnectedTo]="[codePrompts]"
+      (cdkDropListDropped)="dropEdit($event)" >
+        <!-- Your list of prompts here -->
+        <div cdkDrag *ngFor="let prompt of blue_prompts;" (cdkDragDropped)="editPrompt($event, prompt)">
+          <app-draggable-prompts  class="prompt" [prompt]="prompt" (stepsChange)="handleStepsChange(prompt, $event)"></app-draggable-prompts>
+        </div>
+      </div>
+      </mat-tab>
+
+      </mat-tab-group>
       </mat-tab>
       <mat-tab label="Shapes">
         <!-- Your shape buttons here -->
-        <div class="prompt">
+        <div class="shape">
         <button mat-raised-button (click)="drawSquare()">Square</button>
         </div>
-        <div class="prompt">
+        <div class="shape">
           <button mat-raised-button (click)="drawCircle()">Circle</button>
         </div>
       </mat-tab>
@@ -34,21 +72,21 @@
 
 
 <mat-card>
-  <div style="; margin: 20px">
+  <div style="margin: 20px">
     <div>
     <mat-card-title>
       <mat-icon style="margin-bottom: -5px">code</mat-icon>
       Code Editor
     </mat-card-title>
     </div>
-
+    <div style="display: flex; flex-wrap: nowrap; justify-content: center;">
     <div style="width: 400px!important; padding-top: 10px;display: flex; justify-content: space-around">
     <button (click)="reset()" style="background-color: red; color: white" mat-button>
       <mat-icon>delete</mat-icon> Reset
     </button>
 
       <div matTooltip="Please login to execute the robot" [matTooltipDisabled]="authenticated">
-    <button class="but" [disabled]="authenticated" (click)="executeRobot()" style="background-color: blue; color: white" mat-button>
+    <button class="run-btn" [disabled]="!authenticated" (click)="executeRobot()" style="color: white" mat-button>
       <mat-icon>directions_run</mat-icon> Execute Robot
     </button>
       </div>
@@ -57,14 +95,14 @@
       <mat-icon>play_arrow</mat-icon> Run Code
     </button>
     </div>
-
+  </div>
   </div>
 
-  <mat-card style="border: groove 5px"
+  <mat-card style="border: 1px solid black"
             cdkDropList
             #codePrompts="cdkDropList"
             [cdkDropListData]="codes"
-            [cdkDropListConnectedTo]="[listPrompts]"
+            [cdkDropListConnectedTo]="[listblackPrompts, listbluePrompts, listredPrompts]"
             (cdkDropListDropped)="dropList($event)"
             class="example-list">
   <div cdkDrag class="example-box" *ngFor="let code of codes" (cdkDragDropped)="editPrompt($event, code)">
@@ -79,7 +117,7 @@
     <mat-icon style="margin-bottom: -5px">visibility</mat-icon> Preview </mat-card-title>
   <div class="preview-container">
 <!--    <div class="ball" [@moveBall]="getBallPosition()" [ngStyle]="getBallStyle()"></div>-->
-    <div class="preview-container" #imageContainer>
+    <div #imageContainer>
       <img [src]="generatedImage" alt="Generated Image" #draggableImage (mousedown)="startDragging($event)">
     </div>
   </div>

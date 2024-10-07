@@ -1,8 +1,8 @@
 <mat-toolbar class="top-menu">
   <img width="50" height="50" src="favicon.ico" alt="Kitty Coder">
-  <button style="margin: 10px" class="top-title" type="button" mat-button routerLink="/home" routerLinkActive="true"><mat-icon>home</mat-icon> Kitty Coder </button>
+  <button style="margin: 10px" class="top-title" type="button"  mat-button routerLink="/home" routerLinkActive="true"><mat-icon>home</mat-icon> Kitty Coder </button>
 
-  <button *ngIf="!authenticated" style="margin: 10px" class="top-title" type="button" mat-button routerLink="user/login" routerLinkActive="true">
+  <button *ngIf="!authenticated" style="margin: 10px; color: #0066cc;" class="top-title" type="button" mat-button routerLink="user/login" routerLinkActive="true">
     <mat-icon>forward</mat-icon>
     Login
   </button>
@@ -10,16 +10,18 @@
 
 <mat-drawer-container class="example-container" autosize>
 
-
-
   <mat-drawer #drawer class="example-sidenav" mode="push">
     <mat-nav-list>
-    <mat-list-item class="route-btn" routerLink="user/profile" routerLinkActive="focus" (click)="showFiller = !showFiller" mat-raised-button>
+    <mat-list-item class="route-btn" routerLink="/user/profile" routerLinkActive="true" (click)="showFiller = !showFiller">
      <mat-icon style="margin-bottom: -5px">account_circle</mat-icon> Profile
     </mat-list-item>
 
-    <mat-list-item class="route-btn" routerLink="project/codeblock/1" routerLinkActive="focus" (click)="showFiller = !showFiller" mat-raised-button>
-      <mat-icon style="margin-bottom: -5px">build</mat-icon> Project
+    <mat-list-item class="route-btn" routerLink="/project/codeblock/1" routerLinkActive="true" (click)="showFiller = !showFiller" >
+      <mat-icon style="margin-bottom: -5px">build</mat-icon> Block Code
+    </mat-list-item>
+
+    <mat-list-item class="route-btn" routerLink="/project/drawing/1" routerLinkActive="true" (click)="showFiller = !showFiller" >
+      <mat-icon style="margin-bottom: -5px">draw</mat-icon> Draw
     </mat-list-item>
     </mat-nav-list>
   </mat-drawer>
@@ -31,9 +33,9 @@
 
     <button class="nav-button" type="button" mat-button (click)="drawer.toggle()">
       <p class="nav-icon"><svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect class="top" x="20" y="29" width="60" height="7.85106" fill="lightblue" />
-        <rect class="middle" x="20" y="45.5745" width="60" height="7.85106" fill="lightblue" />
-        <rect class="bottom" x="20" y="62.1489" width="60" height="7.85106" fill="lightblue" />
+        <rect class="top" x="20" y="29" width="60" height="7.85106" fill="white" style="stroke-width:1;stroke:rgb(0,0,0)"/>
+        <rect class="middle" x="20" y="45.5745" width="60" height="7.85106" fill="white" style="stroke-width:1;stroke:rgb(0,0,0)" />
+        <rect class="bottom" x="20" y="62.1489" width="60" height="7.85106" fill="white" style="stroke-width:1;stroke:rgb(0,0,0)"/>
       </svg></p>
     </button>
   </div>

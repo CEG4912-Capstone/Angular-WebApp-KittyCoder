@@ -9,11 +9,18 @@ body {
   filter: blur(5px);
 }
 
+.tab{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
 
 .profile-btn{
-  background-color: lightblue;
+  color: #0066cc;
+  background-color: #b3d9ff;
   margin: 5px;
 }
+
 
 .profile-image{
   height: 100px;
@@ -25,7 +32,7 @@ body {
 }
 
 .card-avatar{
-  background-image: url('https://images.squarespace-cdn.com/content/v1/5f4fde63fa39ac5601b24d24/a64b8524-4a2e-4e5a-88ae-88ef9bd7f2a1/Untitled+design+(67).png');
+  background-image: url('https://preview.redd.it/can-someone-change-the-color-of-the-avatar-to-the-gradient-v0-fwns4sow957d1.jpg?width=720&format=pjpg&auto=webp&s=0bfbace94665ca8fd64179d5c4bd84905cc80bb1');
   background-size: cover;
 
 }
@@ -39,14 +46,14 @@ body {
 
 /*tabs*/
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar:focus {
-  --mdc-tab-indicator-active-indicator-color: lightblue;
-  --mat-tab-header-active-label-text-color:lightblue;
-  --mat-tab-header-active-focus-label-text-color: lightblue;
-  --mat-tab-header-active-hover-label-text-color: lightblue;
-  --mat-tab-header-active-focus-indicator-color: lightblue;
-  --mat-tab-header-active-hover-indicator-color: lightblue;
-  --mat-tab-header-active-ripple-color: lightblue;
-  --mat-tab-header-inactive-ripple-color: lightblue;
+  --mdc-tab-indicator-active-indicator-color: #0066cc;
+  --mat-tab-header-active-label-text-color:#0066cc;
+  --mat-tab-header-active-focus-label-text-color: #0066cc;
+  --mat-tab-header-active-hover-label-text-color: #0066cc;
+  --mat-tab-header-active-focus-indicator-color: #0066cc;
+  --mat-tab-header-active-hover-indicator-color: #0066cc;
+  --mat-tab-header-active-ripple-color: #0066cc;
+  --mat-tab-header-inactive-ripple-color: #0066cc;
 
 }
 
@@ -54,6 +61,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #b3d9ff;
+  border: 1px solid black;
   margin: 16px;
   padding: 16px;
   border-radius: 8px;
@@ -65,3 +74,4 @@ body {
   flex: 1 1 auto;
 }
 
+.profile-card{margin:10px;}

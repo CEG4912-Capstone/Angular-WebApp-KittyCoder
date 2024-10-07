@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+mat-card:hover {
+  border: none !important;
+}
+
 .full-width-input {
   width: 100%;
 }
@@ -54,7 +58,7 @@
 .login-field2 {
   flex-wrap: wrap;
   justify-content: space-evenly;
-  padding-bottom: 0 !important;
+  padding-bottom: 0px !important;
   padding-top: 0 !important;
   z-index: 1;
   transform: translateX(0); /* Initial position */
@@ -74,9 +78,9 @@
 }
 
 .toggle-panel{
-  height: 75vh;
+  height: 74vh;
   width: 35vw;
-  border: 5px groove lightblue;
+  border: 1px solid black;
   /*border-radius: 20%;*/
   transition: transform 0.5s ease, border-radius 0.5s ease;
   display: flex;
@@ -90,11 +94,11 @@
 }
 
 .toggle-left {
-  transform: translateX(0);
+  transform: translateX(2vw);
 }
 
 .toggle-right {
-  transform: translateX(-34vw); /* Adjust this value based on your card width */
+  transform: translateX(-32vw); /* Adjust this value based on your card width */
 }
 
 .toggle-left .toggle-panel {
@@ -108,7 +112,7 @@
 
 /* Add styles for the animated button */
 .toggle-btn {
-  background-color: lightblue !important;
+  background-color: #b3d9ff !important;
   cursor: pointer;
 }
 
@@ -182,11 +186,11 @@
 .login-btn{
   width: 100%;
   margin-bottom: 50px;
-  background-color: lightblue!important;
+  background-color: #b3d9ff!important;
 }
 
 sign-in:focus-visible {
-  color: lightblue;
+  color: #b3d9ff;
 }
 
 /*   EYES   */
@@ -255,7 +259,7 @@ sign-in:focus-visible {
 .circles li{
   /* background-image: url("/assets/avatar.png");
   background-size: 100%; */
-  background-color: lightblue;
+  background-color: #b3d9ff;
   position: absolute;
   display: block;
   list-style: none;

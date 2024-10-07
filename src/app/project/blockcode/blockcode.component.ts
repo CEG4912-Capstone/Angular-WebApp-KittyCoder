@@ -7,7 +7,7 @@ import {
   moveItemInArray,
   transferArrayItem
 } from "@angular/cdk/drag-drop";
-import {NgForOf, NgOptimizedImage, NgStyle} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {DraggablePromptsComponent} from "./draggable-prompts/draggable-prompts.component";
 import {MatCard, MatCardTitle, MatCardTitleGroup} from "@angular/material/card";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -29,6 +29,7 @@ interface IPrompt {
   steps: number;
   movementType: 'Move' | 'Turn';
   direction: 'Forward' | 'Backward' | 'Right' | 'Left';
+  color: 'black' | 'red' | 'blue';
 }
 
 // esp32 server url
@@ -54,7 +55,8 @@ const robotUrl = 'http://192.168.2.212/post';
     MatChipGrid,
     MatTooltip,
     MatTabGroup,
-    MatTab
+    MatTab,
+    NgIf
   ],
   templateUrl: './blockcode.component.html',
   styleUrl: './blockcode.component.css',
@@ -65,12 +67,25 @@ const robotUrl = 'http://192.168.2.212/post';
   ]
 })
 export class BlockcodeComponent {
-  prompts: IPrompt[] = [
-    {id: 1, text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward'},
-    {id: 2, text: 'Move backward', steps: 20, movementType: 'Move', direction: 'Backward'},
-    {id: 3, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right'},
-    {id: 4, text: 'Turn left', steps: 120, movementType: 'Turn', direction: 'Left'},
-    // Add more prompts as needed
+  black_prompts: IPrompt[] = [
+    { id: 1, text: 'Move forward', steps: 15, movementType: 'Move', direction: 'Forward', color: 'black' },
+    { id: 2, text: 'Move backward', steps: 25, movementType: 'Move', direction: 'Backward', color: 'black' },
+    { id: 3, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right', color: 'black' },
+    { id: 4, text: 'Turn left', steps: 120, movementType: 'Turn', direction: 'Left', color: 'black' },
+  ];
+
+  red_prompts: IPrompt[] = [
+    { id: 5, text: 'Move forward', steps: 15, movementType: 'Move', direction: 'Forward', color: 'red' },
+    { id: 6, text: 'Move backward', steps: 25, movementType: 'Move', direction: 'Backward', color: 'red' },
+    { id: 7, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right', color: 'red' },
+    { id: 8, text: 'Turn left', steps: 120, movementType: 'Turn', direction: 'Left', color: 'red' },
+  ];
+
+  blue_prompts: IPrompt[] = [
+    { id: 9, text: 'Move forward', steps: 15, movementType: 'Move', direction: 'Forward', color: 'blue' },
+    { id: 10, text: 'Move backward', steps: 25, movementType: 'Move', direction: 'Backward', color: 'blue' },
+    { id: 11, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right', color: 'blue' },
+    { id: 12, text: 'Turn left', steps: 120, movementType: 'Turn', direction: 'Left', color: 'blue' },
   ];
 
   codes: IPrompt[] = [
@@ -173,18 +188,23 @@ export class BlockcodeComponent {
     const clonedItem = { ...item };
 
     // Assign a new unique ID
-    clonedItem.id = this.getNewUniqueId();
+    clonedItem.id = this.getNewUniqueId(item);
 
     return clonedItem;
   }
 
-  getNewUniqueId(): number {
+  getNewUniqueId(item: IPrompt): number {
     // Generate a new unique ID
-    // This is a simplistic approach; you might need something more robust depending on your app
-    return Math.max(0, ...this.prompts.map(p => p.id)) + 1;
+   if(item.color == 'black'){
+    return Math.max(0, ...this.black_prompts.map(p => p.id)) + 1;
+   } if (item.color == 'red') {
+    return Math.max(0, ...this.red_prompts.map(p => p.id)) + 1;
+   } else {
+    return Math.max(0, ...this.blue_prompts.map(p => p.id)) + 1;
+   }
   }
 
-
+//Handle dropping items in the code list
   dropList(event: CdkDragDrop<IPrompt[]>): void {
     if (event.previousContainer === event.container) {
       // Just rearranging items in the same list
@@ -199,7 +219,9 @@ export class BlockcodeComponent {
     }
   }
 
+  //Handle dropping items in the prompt lists
   dropEdit(event: CdkDragDrop<IPrompt[]>): void {
+    console.log(event.previousContainer ,"   ", event.container)
     if (event.previousContainer === event.container) {
 
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -224,10 +246,12 @@ export class BlockcodeComponent {
     }
   }
 
+  //prompt dropped.
   editPrompt(event: CdkDragDrop<IPrompt[]>, prompt: IPrompt) {
     this._snackBar.open(`Prompt #${prompt.text + prompt.steps} Updated`, 'Dismiss', {duration: 1000});
   }
 
+  // SEND REQUEST TO THE ROBOT
   executeRobot(): void {
     // make sure data sent is in json format
     const headers = { 'Content-Type': 'application/json' };
@@ -257,14 +281,14 @@ export class BlockcodeComponent {
     this.codes = [];
 
     const squareCommands: IPrompt[] = [
-      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' }
+      { id: 0, text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' , color: 'black'},
+      { id: 1, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right', color: 'black' },
+      { id: 2, text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' , color: 'black'},
+      { id: 3, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' , color: 'black'},
+      { id: 4, text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward', color: 'black' },
+      { id: 5, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' , color: 'black'},
+      { id: 6, text: 'Move forward', steps: 10, movementType: 'Move', direction: 'Forward' , color: 'black'},
+      { id: 7, text: 'Turn right', steps: 90, movementType: 'Turn', direction: 'Right' , color: 'black'}
     ];
 
     // Simulate adding each command block with a brief delay to animate
@@ -280,43 +304,43 @@ export class BlockcodeComponent {
     this.codes = [];
 
     const circleCommands: IPrompt[] = [
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-      { id: this.getNewUniqueId(), text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' },
-    ];
+      { id: 0, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 1, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 2, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 3, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 4, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 5, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 6, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 7, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 8, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 9, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 10, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 11, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 12, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 13, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 14, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 15, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 16, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 17, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 18, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 19, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 20, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 21, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 22, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 23, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 24, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 25, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 26, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 27, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 28, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 29, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 30, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 31, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 32, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 33, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 34, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'},
+  { id: 35, text: 'Turn right', steps: 10, movementType: 'Turn', direction: 'Right' , color: 'red'}
+];
 
     // Simulate adding each command block with a brief delay to animate
     circleCommands.forEach((command, index) => {

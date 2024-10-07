@@ -1,8 +1,11 @@
+
+
 <!-- draggable-prompts.component.html -->
-  <button class="but" mat-button>
-    {{ prompt?.text }}
+  <button [style.background-color]="getLighterColor(prompt.color)" [style.border-color]="prompt.color" class="but">
+    <mat-icon style="margin-bottom: -5px; color: black">drag_indicator</mat-icon>
+   {{prompt.text }}
     <ng-container *ngIf="prompt as validPrompt">
-      <input class="inputs" #stepsInput type="number" min="0" [max]='prompt?.text?.startsWith("Move") ? 30 : null' [(ngModel)]="validPrompt.steps" (change)="updateSteps(stepsInput.value)" style="width: 50px;">
+      <input class="inputs" #stepsInput type="number" min="0" [max]='prompt.text.startsWith("Move") ? 30 : null' [(ngModel)]="validPrompt.steps" (change)="updateSteps(stepsInput.value)" style="width: 50px;">
     </ng-container>
-    {{ prompt?.text?.startsWith("Move") ? 'steps' : 'degrees' }}
+    {{ prompt.text.startsWith("Move") ? 'steps' : 'degrees' }}
   </button>

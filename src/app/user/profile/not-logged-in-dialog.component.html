@@ -1,9 +1,11 @@
 <!-- not-logged-in-dialog.component.html -->
-<mat-dialog-content class="mat-typography">
-  <h2>Welcome to KittyCoder!</h2>
+<div style="border: 1px solid black">
+<mat-dialog-content  class="mat-typography">
+  <h2 style="color:#0066cc; ">Welcome to KittyCoder!</h2>
   <p>We're excited to have you here, but it looks like you're not logged in yet.</p>
   <p>Please log in to access all our features, including the robot execution!</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button class="but" mat-button routerLink="user/login" [mat-dialog-close]="false">Log In</button>
+  <button class="but" mat-button routerLink="user/login" [mat-dialog-close]="false"> <mat-icon>forward</mat-icon> Log In</button>
 </mat-dialog-actions>
+</div>

@@ -74,6 +74,9 @@ app.get("/api/reset-preview",(req, res) => {
 
       context.fillStyle = '#ffffff'; // White background
       context.fillRect(0, 0, canvas.width, canvas.height);
+
+    
+
       context.strokeStyle = '#000000'; // Black for line color
       context.lineWidth = 1; // Default line width
 
@@ -97,7 +100,7 @@ app.get("/api/reset-preview",(req, res) => {
     context.lineTo(endX2, endY2);
 
     // Style for the arrowhead
-    context.strokeStyle = 'red'; // Color for visibility
+    context.strokeStyle = 'green'; // Color for visibility
     context.stroke();
 
     // Reset the stroke color for other drawings
@@ -199,7 +202,11 @@ app.post("/api/preview",(req, res) => {
     context.translate(size.offsetX, size.offsetY);
 
     // Turtle movement logic
-    function moveTurtle(distance, direction) {
+    function moveTurtle(distance, direction, color) {
+
+      // set color
+      context.strokeStyle = color;
+
       // Check if we need to rotate for backward movement
       if (direction === 'Backward') {
         // Rotate 180 degrees to face backward, move, then optionally rotate back
@@ -222,7 +229,12 @@ app.post("/api/preview",(req, res) => {
     }
 
     // Turtle rotation logic
-    function rotateTurtle(degrees, direction) {
+    function rotateTurtle(degrees, direction, color) {
+
+      // set color
+      context.strokeStyle = color;
+
+
       // Convert degrees to radians for rotation
       const radians = degrees * (Math.PI / 180);
 
@@ -265,7 +277,7 @@ app.post("/api/preview",(req, res) => {
       context.lineTo(endX2, endY2);
 
       // Style for the arrowhead
-      context.strokeStyle = 'red'; // Color for visibility
+      context.strokeStyle = 'green'; // Color for visibility
       context.stroke();
 
       // Reset the stroke color for other drawings
@@ -274,14 +286,14 @@ app.post("/api/preview",(req, res) => {
 
     // Process each command
     commands.forEach(command => {
-      const { direction, movementType, steps } = command;
+      const { direction, movementType, steps , color} = command;
 
       switch (movementType) {
         case "Move":
-          moveTurtle(steps * 10, direction);
+          moveTurtle(steps * 10, direction, color);
           break;
         case "Turn":
-          rotateTurtle(steps, direction); // Assuming 90 degree turns for simplicity
+          rotateTurtle(steps, direction, color); // Assuming 90 degree turns for simplicity
           break;
         // case 'Reset':
         //   resetCanvas(); // Reset canvas on 'Reset' command

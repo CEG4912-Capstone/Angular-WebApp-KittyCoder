@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
-
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-not-logged-in-dialog',
   standalone: true, // Mark the component as standalone
@@ -14,6 +14,7 @@ import {RouterLink} from "@angular/router";
     MatButton,
     MatDialogClose,
     RouterLink,
+    MatIcon,
   ],
   templateUrl: './not-logged-in-dialog.component.html',
   styleUrl: `not-logged-in-dialog.component.css`,

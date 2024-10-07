@@ -72,14 +72,14 @@
     <mat-card-content class="login-field2 slide-animation" [ngClass]="{'toggle-left': isToggleLeft, 'toggle-right': !isToggleLeft}">
 
       <div class="toggle-panel">
-        <h1 style="color: black; font-size: xxx-large">Hello, Friend!</h1>
+        <h1 style="color: #0066cc; font-size: xxx-large">Hello, Friend!</h1>
         <div *ngIf="isToggleLeft">
           <p style="color: black; font-size: x-large">Don't have an account, sign up here!</p>
-          <button mat-button class="login-btn toggle-btn" (click)="togglePanel()"> Sign Up</button>
+          <button style="color:white" mat-button class="login-btn toggle-btn" (click)="togglePanel()"> Sign Up</button>
         </div>
         <div *ngIf="!isToggleLeft">
           <p style="color: black; font-size: x-large">Already have an account, sign in here!</p>
-          <button mat-button class="login-btn toggle-btn" (click)="togglePanel()"> Sign In</button>
+          <button style="color:white" mat-button class="login-btn toggle-btn" (click)="togglePanel()"> Sign In</button>
         </div>
         <div class="image"></div>
       </div>
@@ -133,7 +133,7 @@
           </mat-form-field>
         </div>
 
-        <button [disabled]="!user2.valid" type="submit" class="login-btn" (click)="onSubmit()" mat-raised-button color="primary">Create Account</button>
+        <button style="color:white" [disabled]="!user2.valid" type="submit" class="login-btn" (click)="onSubmit()" mat-raised-button color="primary">Create Account</button>
       </form>
     </mat-card-content>
   </mat-card>

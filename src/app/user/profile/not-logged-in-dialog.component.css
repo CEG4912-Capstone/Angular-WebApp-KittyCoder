@@ -3,5 +3,7 @@ h2 {
   margin-bottom: 20px;
 }
 .but{
-  background-color: lightblue;
+  color: #0066cc;
+  background-color: #b3d9ff;
+  border: 1px solid black;
 }

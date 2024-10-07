@@ -1,0 +1,46 @@
+<div style="display: flex; flex-wrap: nowrap; justify-content: center; height: 90%;" class="container">
+    <mat-card style="margin:20px; width:30%">
+      <div style="margin: 20px">
+        <div>
+          <mat-card-title>
+            <mat-icon style="margin-bottom: -5px">code</mat-icon>
+            Prediction
+          </mat-card-title>
+        </div>
+        <div style="display: flex; flex-wrap: nowrap; justify-content: center;">
+          <div style="width: 400px!important; padding-top: 10px;display: flex; justify-content: space-around">
+            <button mat-raised-button (click)="reset()" style="background-color: red; color: white">
+              <mat-icon>delete</mat-icon> Reset
+            </button>
+            <button mat-raised-button (click)="predict()" style="background-color: green; color: white">
+              <mat-icon>play_arrow</mat-icon> Run Code
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <mat-card>
+        <!-- HERE IS THE SKETCH PREDICTION -->
+      </mat-card>
+    </mat-card>
+  
+    <mat-card style="margin:20px; width:70%; height:93%">
+      <mat-card-title style="margin: 20px">
+        <mat-icon style="margin-bottom: -5px">draw</mat-icon> Draw
+      </mat-card-title>
+  
+      <div style="display: flex; flex-wrap: nowrap; justify-content: space-around;">
+        <!-- Color buttons -->
+        <button  style="background-color:darkslategrey; color:white" mat-button>Black</button>
+        <button  style="background-color:red; color:white" (click)="setColor('red')" mat-button>Red</button>
+        <button  style="background-color:blue; color:white"(click)="setColor('blue')" mat-button>Blue</button>
+      </div>
+  
+      <div class="preview-container" style="height:100%">
+        <div>
+          <!-- Drawing canvas -->
+          <canvas #canvas style="width: 100%; height:100%" (mousedown)="startDrawing($event)" (mousemove)="draw($event)" (mouseup)="stopDrawing()" (mouseleave)="stopDrawing()"></canvas>
+        </div>
+      </div>
+    </mat-card>
+  </div>

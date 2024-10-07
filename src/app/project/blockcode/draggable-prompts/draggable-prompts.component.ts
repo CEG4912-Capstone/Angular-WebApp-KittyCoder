@@ -5,11 +5,13 @@ import {MatButton} from "@angular/material/button";
 import {MatCard} from "@angular/material/card";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatIcon} from "@angular/material/icon";
 
 interface IPrompt {
   id: number;
   text: string;
   steps:number;
+  color:string;
 }
 
 @Component({
@@ -23,7 +25,8 @@ interface IPrompt {
     MatCard,
     NgStyle,
     FormsModule,
-    NgIf
+    NgIf,
+    MatIcon,
   ],
   templateUrl: './draggable-prompts.component.html',
   styleUrl: './draggable-prompts.component.css'
@@ -31,7 +34,7 @@ interface IPrompt {
 export class DraggablePromptsComponent {
 
   @Input()
-  prompt: IPrompt | undefined;
+  prompt!: IPrompt;
 
   @Output()
   stepsChange = new EventEmitter<number>(); // Emits the new steps value
@@ -39,6 +42,12 @@ export class DraggablePromptsComponent {
   constructor(private _snackBar: MatSnackBar) {
   }
 
+  colorMap: { [key: string]: string } = {
+    red: 'lightcoral',
+    blue: 'lightblue',
+    green: 'lightgreen',
+    black: 'darkgray',
+  };
 
   updateSteps(newSteps: string) {
     const steps = parseInt(newSteps, 10);
@@ -47,5 +56,10 @@ export class DraggablePromptsComponent {
       this.stepsChange.emit(steps); // Emit the steps to block code component
     }
   }
+
+  getLighterColor(color: string): string {
+    return this.colorMap[color] || color;
+  }
+
 
 }

@@ -3,3 +3,116 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* Overall background */
+body {
+    background-color: #f0f8ff;
+  }
+  
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Card styling */
+  mat-card {
+    background-color: #e6f3ff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+
+  mat-card:hover {
+    border: 1px solid black;
+    box-shadow: 0 6px 12px #b3d9ff;
+  }
+  
+  mat-card-title {
+    border: 1px solid black;
+    color: #0066cc;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 15px;
+    background-color: #d1e8ff;
+    margin-bottom: 0;
+    border-radius: 8px;
+  }
+
+
+  /* Prompt styling */
+  .shape {
+    background-color: #b3d9ff;
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .shape:hover {
+    background-color: #99ccff;
+  }
+  
+  /* Button styling */
+  .but, .button {
+    background-color: #b3d9ff;
+    color: #0066cc;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size:medium;
+    cursor: move;
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  /* Input styling */
+  .inputs {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: large;
+  }
+  
+  /* Preview container */
+  .preview-container {
+    background-color: #f8fbfd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Header styling */
+  .mat-toolbar {
+    background-color: #0066cc;
+    color: white;
+  }
+  
+  /* Tabs styling (if you're using mat-tab-group) */
+  .mat-tab-label {
+    color: #0066cc;
+  }
+
+  
+  .mat-tab-group.mat-primary .mat-ink-bar {
+    background-color: #0066cc;
+  }
+
+  .mat-icon{color:white;}
+
+  .mat-mdc-tab-group, .mat-mdc-tab-nav-bar:focus {
+  --mdc-tab-indicator-active-indicator-color: #0066cc;
+  --mat-tab-header-active-label-text-color:#0066cc;
+  --mat-tab-header-active-focus-label-text-color: #0066cc;
+  --mat-tab-header-active-hover-label-text-color: #0066cc;
+  --mat-tab-header-active-focus-indicator-color: #0066cc;
+  --mat-tab-header-active-hover-indicator-color: #0066cc;
+  --mat-tab-header-active-ripple-color: #0066cc;
+  --mat-tab-header-inactive-ripple-color: #0066cc;
+
+}
+

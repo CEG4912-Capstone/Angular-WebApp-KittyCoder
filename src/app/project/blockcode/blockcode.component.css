@@ -1,27 +1,37 @@
-/* blockcode.component.css */
-:host {
-  display: flex;
-}
 
 mat-card {
   flex: 1;
-  margin: 10px; /* Adjust as needed */
+  margin: 5px; /* Adjust as needed */
 }
 
 .prompt {
   padding: 10px;
-  margin: 5px;
+  margin: 30px;
   cursor: grab;
-  user-select: none;
 }
 
-.prom {
-  position: absolute;
+.mat-tab-label {
+  color: inherit;
 }
 
-.preview-container {
-  position: relative;
-  height: 100px; /* Set the height of the container */
+.mat-tab-label.mat-tab-label-active {
+  color: inherit;
+}
+
+.mat-tab-label:hover {
+  color: inherit;
+}
+
+.black-label {
+  color: black;
+}
+
+.red-label {
+  color: red;
+}
+
+.blue-label {
+  color: blue;
 }
 
 /*.example-list {*/
@@ -66,20 +76,41 @@ mat-card {
 mat-card {
   flex: 1 1 auto; /* Each card will grow to fill the space */
   min-width: 300px; /* Sets a minimum width for each card to prevent them from getting too small */
-  min-height: 400px;
+  min-height: 300px;
   transition: width 0.3s ease, height 0.3s ease; /* Smooth transition for size changes */
   overflow: hidden; /* Prevent content from overflowing */
 }
 
 .but:disabled{
-  background-color: dimgray!important;
-  border: groove;
+  color: dimgray!important;
+  cursor:help
 }
 
 .preview-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
+  border: 1px solid black;
+  margin: 5px;
   cursor: grab;
 }
+
+.run-btn{
+  background-color: blue;
+}
+
+.run-btn:disabled{
+  background-color: grey !important;
+  border: 5px groove grey;
+}
+
+
+
+/* .b-pen> .mat-mdc-tab-group, .mat-mdc-tab-nav-bar:focus {
+  --mdc-tab-indicator-active-indicator-color: red;
+  --mat-tab-header-active-label-text-color:red;
+  --mat-tab-header-active-focus-label-text-color: red;
+  --mat-tab-header-active-hover-label-text-color: red;
+  --mat-tab-header-active-focus-indicator-color: red;
+  --mat-tab-header-active-hover-indicator-color: red;
+  --mat-tab-header-active-ripple-color: red;
+  --mat-tab-header-inactive-ripple-color: red;
+
+} */
