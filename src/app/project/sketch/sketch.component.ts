@@ -1,55 +1,67 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import {AuthenticationService} from "../../services/authentication.service";
-import {NgIf} from "@angular/common";
+import { CommonModule } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 import { MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import {HttpClient} from "@angular/common/http";
-import {MatButton} from "@angular/material/button";
+import { MatButton } from '@angular/material/button';
+
+// Import Teachable Machine modules
+import * as tmImage from '@teachablemachine/image';
 
 @Component({
   selector: 'app-sketch',
   standalone: true,
   templateUrl: './sketch.component.html',
   imports: [
-    NgIf,
+    CommonModule,
     MatCard,
     MatCardTitle,
     MatIcon,
-    MatButton
+    MatButton,
   ],
-  styleUrls: ['./sketch.component.css']
+  styleUrls: ['./sketch.component.css'],
 })
-
 export class SketchComponent implements AfterViewInit {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
   private isDrawing = false;
   private currentColor = 'black';
 
-  constructor(private http: HttpClient) {}
+  // Teachable Machine model variables
+  private URL = 'https://teachablemachine.withgoogle.com/models/HHcyGf53Q/';
+  private model: any;
+  private maxPredictions: number = 0;
+
+  predictions: Array<{ className: string; probability: number }> = [];
+
+  constructor() {}
 
   ngAfterViewInit() {
     this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
     this.resizeCanvas();
     this.clearCanvas();
+    this.initModel();
   }
 
   private resizeCanvas() {
-    this.canvasRef.nativeElement.width = this.canvasRef.nativeElement.offsetWidth;
+    this.canvasRef.nativeElement.width =
+      this.canvasRef.nativeElement.offsetWidth;
     this.canvasRef.nativeElement.height = 350;
   }
 
-  //mouse down (clicked)
+  // Mouse down (clicked)
   startDrawing(event: MouseEvent) {
     this.isDrawing = true;
     this.draw(event);
   }
 
-  // mouse up
+  // Mouse up
   stopDrawing() {
     this.isDrawing = false;
     this.ctx.beginPath();
+    // Trigger prediction when drawing stops
+    this.predict();
+    this.maxPredictions = 0;
   }
 
   draw(event: MouseEvent) {
@@ -71,26 +83,61 @@ export class SketchComponent implements AfterViewInit {
 
   reset() {
     this.clearCanvas();
+    this.predictions = []; // Clear predictions when resetting
   }
 
   private clearCanvas() {
     this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+    this.ctx.fillRect(
+      0,
+      0,
+      this.canvasRef.nativeElement.width,
+      350
+    );
+  }
+
+  async initModel() {
+    const modelURL = this.URL + 'model.json';
+    const metadataURL = this.URL + 'metadata.json';
+
+    this.model = await tmImage.load(modelURL, metadataURL);
+    this.maxPredictions = this.model.getTotalClasses();
   }
 
   predict() {
     const imageData = this.canvasRef.nativeElement.toDataURL('image/png');
-    const base64Data = imageData.split(',')[1];
 
-    // Send the base64 image data to server
-    this.http.post('url', { image: base64Data }).subscribe(
-      (response) => {
-        console.log('Prediction response:', response);
-        // to show prediction
-      },
-      (error) => {
-        console.error('Error sending prediction request:', error);
-      }
-    );
+    const img = new Image();
+    img.src = imageData;
+
+    img.onload = async () => {
+      // Now that the image is loaded, you can pass it to the model
+      await this.runPrediction(img);
+    };
+  }
+
+  async runPrediction(image: HTMLImageElement) {
+    if (!this.model) {
+      console.error('Model not loaded yet.');
+      return;
+    }
+
+    // Run the Teachable Machine model prediction
+    const prediction = await this.model.predict(image);
+
+    // Sort predictions by probability in descending order
+    prediction.sort((a: any, b: any) => b.probability - a.probability);
+
+    // Take the top 3 predictions
+    this.predictions = prediction.slice(0, 3);
+
+    // Log the predictions (optional)
+    for (let i = 0; i < this.predictions.length; i++) {
+      const classPrediction =
+        this.predictions[i].className +
+        ': ' +
+        this.predictions[i].probability.toFixed(2);
+      console.log(classPrediction);
+    }
   }
 }

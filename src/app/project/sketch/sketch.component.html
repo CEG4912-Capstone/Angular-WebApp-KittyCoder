@@ -12,16 +12,38 @@
             <button mat-raised-button (click)="reset()" style="background-color: red; color: white">
               <mat-icon>delete</mat-icon> Reset
             </button>
-            <button mat-raised-button (click)="predict()" style="background-color: green; color: white">
+            <!-- <button mat-raised-button (click)="predict()" style="background-color: green; color: white">
               <mat-icon>play_arrow</mat-icon> Run Code
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
   
-      <mat-card>
-        <!-- HERE IS THE SKETCH PREDICTION -->
+      <mat-card style="margin:20px">
+        <!-- Display Top 3 Predictions -->
+        <div *ngIf="predictions.length > 0">
+          <!-- Highest Prediction -->
+          <div
+            style="font-size: 24px; font-weight: bold; color: black;"
+          >
+            {{ predictions[0].className }}:
+            {{ predictions[0].probability | number: '1.2-2' }}
+          </div>
+      
+          <!-- Next Two Predictions -->
+          <div
+            *ngFor="let pred of predictions.slice(1); let i = index"
+            style="font-size: 18px; font-weight: bold; color: gray;"
+          >
+            {{ pred.className }}:
+            {{ pred.probability | number: '1.2-2' }}
+          </div>
+        </div>
+        <div *ngIf="predictions.length === 0">
+          No predictions yet.
+        </div>
       </mat-card>
+      
     </mat-card>
   
     <mat-card style="margin:20px; width:70%; height:93%">
